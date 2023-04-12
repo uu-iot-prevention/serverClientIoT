@@ -1,0 +1,15 @@
+.username-navbar,
+.surname-navbar {
+  color: white;
+  padding: 0px 2px;
+}
+
+.form-inline {
+  padding: 0px 10px;
+}
+
+.user-icon-name {
+  display: flex;
+  align-items: center;
+  padding-right: 20px;
+}
