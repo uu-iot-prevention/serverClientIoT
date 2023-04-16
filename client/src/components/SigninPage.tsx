@@ -1,16 +1,33 @@
-import { Box, Button, colors, Typography } from "@mui/material";
+import { Box, Button, colors, createTheme, Typography } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import React, { ChangeEvent, useState } from "react";
 import CustomInput from "./CustomInput";
 import { NavLink, useNavigate } from "react-router-dom";
 import axios, { AxiosResponse } from "axios";
 import { useCookies } from "react-cookie";
+import {ThemeProvider} from "@mui/material";
+import {logo} from "./Navbar"
 
 
 interface SigninPageInput {
   email: string;
   password: string;
 }
+
+const theme = createTheme({
+  components:{
+    MuiButton:{
+      styleOverrides:{
+        root:{
+          
+          '&:hover': {
+            backgroundColor:"red"
+          }
+        }
+      }
+    }
+  }
+})
 
 const SigninPage: React.FC = () => {
 
@@ -94,17 +111,21 @@ const SigninPage: React.FC = () => {
                 mt: "60px",
                 width: "50px",
                 height: "50px",
-                bgcolor: "primary.main",
+                // bgcolor: "red",
                 borderRadius: "12px",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                boxShadow: `0 0 20px ${colors.green[500]}`,
+                // boxShadow: `0 0 20px ${colors.red[500]}`,
               }}
             >
-              <Typography variant="h6" fontWeight="bold" color="white">
+              {/* <Typography variant="h6" fontWeight="bold" color="white">
                 A
-              </Typography>
+
+              </Typography> */}
+
+              <img style={{ width: "100px"}} src={logo}></img>
+             
             </Box>
 
             <Typography color="white" fontWeight="bold" mt={7} mb={3}>
@@ -132,11 +153,11 @@ const SigninPage: React.FC = () => {
           />
 
           {/* INPUT END */}
-
+<ThemeProvider theme={theme}>
           <Button
             variant="contained"
             fullWidth
-            sx={{ mt: 4, boxShadow: `0 0 20px ${colors.green[500]}` }}
+            sx={{ mt: 4, boxShadow: `0 0 10px ${colors.red[500]}`, backgroundColor:"red", color:"white", }}
             onClick={postLogin}
           >
             Login
@@ -145,11 +166,13 @@ const SigninPage: React.FC = () => {
             <Button
               variant="contained"
               fullWidth
-              sx={{ mt: 4, boxShadow: `0 0 20px ${colors.green[200]}` }}
+              sx={{ mt: 4, boxShadow: `0 0 10px ${colors.red[500]}`, backgroundColor:"red", color:"white" }}
             >
               Registration
             </Button>
+            
           </NavLink>
+          </ThemeProvider>
           {errors && (
             <Typography color="white" fontWeight="bold" mt={7} mb={3}>
               {`${errors}`}

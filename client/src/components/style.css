@@ -13,3 +13,18 @@
   align-items: center;
   padding-right: 20px;
 }
+
+.navbar-brand img {
+  position: relative;
+  top: -27px;
+  left: -5px;
+  width: 80px;
+}
+
+.navbar-brand {
+  height: 0px;
+}
+
+.buttonLogOut:hover {
+  background-color: red;
+}

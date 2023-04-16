@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Navbar from '../components/Navbar';
 import { useCookies } from 'react-cookie'
-import { Navigate } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 
 
 interface UserStorage {
@@ -24,7 +24,7 @@ if (!user) {
     {cookies?.token ?  <div>
         <Navbar username={user.username} surname={user.surname} ></Navbar>
 
-
+        <Outlet></Outlet>
 
     </div>:<Navigate to={"/login"}></Navigate>
     

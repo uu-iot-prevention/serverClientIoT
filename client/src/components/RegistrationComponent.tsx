@@ -1,10 +1,11 @@
-import { Box, Button, colors, Typography } from "@mui/material";
+import { Box, Button, colors, Typography, ThemeProvider, createTheme } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import React, { ChangeEvent, useState } from "react";
 import CustomInput from "./CustomInput";
 import { NavLink } from "react-router-dom";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { useNavigate } from "react-router-dom";
+import {logo} from "./Navbar"
 
 interface InputsData {
   username: string;
@@ -12,10 +13,21 @@ interface InputsData {
   email: string;
   password: string;
 }
-// interface Response {
-//   message: string;
-//   user: object;
-// }
+
+const theme = createTheme({
+  components:{
+    MuiButton:{
+      styleOverrides:{
+        root:{
+          
+          '&:hover': {
+            backgroundColor:"red"
+          }
+        }
+      }
+    }
+  }
+})
 
 const RegistrationComponent = () => {
   const [loading, setLoading] = useState<Boolean>(false);
@@ -95,21 +107,22 @@ const RegistrationComponent = () => {
             {/* LOGO */}
             <Box
               sx={{
-                mt: "30px",
+                mt: "40px",
                 width: "50px",
                 height: "50px",
-                bgcolor: "primary.main",
                 borderRadius: "12px",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                boxShadow: `0 0 20px ${colors.green[500]}`,
+
               }}
             >
-              <Typography variant="h6" fontWeight="bold" color="white">
-                A
-              </Typography>
+              
+
+              <img style={{ width: "100px"}} src={logo}></img>
+             
             </Box>
+
 
             <Typography color="white" fontWeight="bold" mt={2} mb={3}>
               Registration to dashboard
@@ -155,11 +168,11 @@ const RegistrationComponent = () => {
           />
 
           {/* INPUT END */}
-
+<ThemeProvider theme={theme}>
           <Button
             variant="contained"
             fullWidth
-            sx={{ mt: 4, boxShadow: `0 0 20px ${colors.green[900]}` }}
+            sx={{ mt: 4, boxShadow: `0 0 20px ${colors.red[900]}`, backgroundColor:"red", color:"white" }}
             onClick={postRegistration}
           >
             Registration
@@ -168,11 +181,12 @@ const RegistrationComponent = () => {
             <Button
               variant="contained"
               fullWidth
-              sx={{ mt: 3, boxShadow: `0 0 20px ${colors.green[900]}` }}
+              sx={{ mt: 3, boxShadow: `0 0 20px ${colors.red[900]}`, backgroundColor:"red", color:"white" }}
             >
               Sign In
             </Button>
           </NavLink>
+          </ThemeProvider>
           {errors && (
             <Typography color="white" fontWeight="bold" mt={2} mb={3}>
               {`${errors}`}

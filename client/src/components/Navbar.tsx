@@ -2,10 +2,9 @@ import React from 'react'
 import "./style.css"
 import { useCookies } from 'react-cookie';
 import { NavLink } from 'react-router-dom'
-
-
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 
+ export const logo = require("../assets/logo.png")
 
 interface NavbarProps{
     username:string|null,
@@ -32,7 +31,7 @@ const Navbar = ({username, surname}:NavbarProps) => {
     
     
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-  <NavLink className="navbar-brand" to="./">Logo</NavLink>
+  <NavLink className="navbar-brand" to="/home"><img src={logo}></img></NavLink>
   <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
     <span className="navbar-toggler-icon"></span>
   </button>
@@ -49,7 +48,7 @@ const Navbar = ({username, surname}:NavbarProps) => {
     <div className='username-navbar'>{username}</div>
     <div className="surname-navbar">{surname}</div></div>
 
-      <button className="btn btn-outline-Light my-2 my-sm-0" onClick={logOut} >Log Out</button>
+      <button className="btn btn-outline-Light my-2 my-sm-0 buttonLogOut"  onClick={logOut} >Log Out</button>
 
     {/* </form> */}
 
