@@ -5,15 +5,15 @@ class TemperatureController {
         try {
             const body = req.body;
             if (!body) {
-                new Error("Body does not exist")
+                throw new Error("Body does not exist")
             }
             const date = body.date;
-            if (!date || !date instanceof Date) {
-                new Error("Date does not exist");
+            if (!date) {
+                throw new Error("Date does not exist");
             }
             const record = await model.find({recordDate: date}).exec();
             if (!record) {
-                new Error("record does not exist");
+                throw new Error("Record does not exist");
             }
             res.json(record);
         } catch (e) {
