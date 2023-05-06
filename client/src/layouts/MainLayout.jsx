@@ -4,11 +4,7 @@ import React from "react";
 
 const bgImage = require("../assets/bg.png");
 
-interface MainLoyautProps {
-  children: React.ReactNode
-}
-
-const MainLayout = ({children}:MainLoyautProps) => {
+const MainLayout = ({ children }) => {
   return (
     <ThemeProvider theme={theme}>
       <Box
