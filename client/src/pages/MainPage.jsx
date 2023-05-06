@@ -2,17 +2,11 @@ import React, { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar';
 import { useCookies } from 'react-cookie'
 import { Navigate, Outlet } from 'react-router-dom';
-import axios from 'axios';
+// import axios from 'axios';
 import { getDataFromUrl } from '../helper/helper';
 
-
-interface UserStorage {
-    username:string|null,
-    surname:string|null
-}
-
 const MainPage = () => {
-const [user] = useState<UserStorage>({username:localStorage.getItem("name"),surname:localStorage.getItem("surname")})
+const [user] = useState({username:localStorage.getItem("name"),surname:localStorage.getItem("surname")})
     const [cookies] = useCookies(['token']);
 
     
