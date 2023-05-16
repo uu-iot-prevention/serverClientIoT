@@ -20,7 +20,7 @@ wss.on("connection", (ws) => {
   const interval = setInterval(() => {
     const message = "Toto je pravidelná zpráva každou vteřinu";
     ws.send(message);
-  }, 1000);
+  }, 3000);
   // Přijatá zpráva od klienta
   ws.on("message", (message) => {
     console.log(`Přijato: ${message}`);
@@ -32,7 +32,7 @@ wss.on("connection", (ws) => {
 
 const startWs = async () => {
   try {
-    const port = 8080;
+    const port = 5000;
     server.listen(port, () => {
       console.log(`Server běží na portu ${port}`);
     });
