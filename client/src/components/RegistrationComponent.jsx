@@ -60,7 +60,7 @@ const RegistrationComponent = () => {
       setLoading(false);
       navigate("/login");
     } catch (e) {
-      setErrors(e.response.data.message);
+      setErrors(e?.response.data.message);
     }
   };
   if (loading) {

@@ -1,46 +1,42 @@
-import React, { useEffect, useState } from 'react'
-import Navbar from '../components/Navbar';
-import { useCookies } from 'react-cookie'
-import { Navigate, Outlet } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import Navbar from "../components/Navbar";
+import { useCookies } from "react-cookie";
+import { Navigate, Outlet } from "react-router-dom";
 // import axios from 'axios';
-import { getDataFromUrl } from '../helper/helper';
+import { getDataFromUrl } from "../helper/helper";
+import useGetAxios from "../hooks/useGetAxios";
 
 const MainPage = () => {
-const [user] = useState({username:localStorage.getItem("name"),surname:localStorage.getItem("surname")})
-    const [cookies] = useCookies(['token']);
+  const [user] = useState({
+    username: localStorage.getItem("name"),
+    surname: localStorage.getItem("surname"),
+  });
+  const [cookies] = useCookies(["token"]);
 
-    
+  const { data, loading, error } = useGetAxios(
+    "http://localhost:5003/auth/users"
+  );
 
-const getUser = ()=>{
+  console.log(data);
+  console.log(error?.response.data?.message);
 
-getDataFromUrl("http://localhost:5003/auth/users",cookies.token).then(res=>console.log(res)
-)
-
-  
-}
-
-
-
-if (!user) {
-    return null
-
-}
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>
-    {cookies?.token ?  <div>
-        <Navbar username={user.username} surname={user.surname} ></Navbar>
+      {cookies?.token ? (
+        <div>
+          <Navbar username={user.username} surname={user.surname}></Navbar>
 
-        <button onClick={getUser}>try Button</button>
-
-        <Outlet></Outlet>
-
-    </div>:<Navigate to={"/login"}></Navigate>
-    
-    }
+          <Outlet></Outlet>
+        </div>
+      ) : (
+        <Navigate to={"/login"}></Navigate>
+      )}
     </div>
-  )
-  
-}
+  );
+};
 
-export default MainPage
+export default MainPage;

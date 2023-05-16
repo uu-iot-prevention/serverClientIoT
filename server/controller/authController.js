@@ -5,12 +5,14 @@ const bcrypt = require("bcryptjs");
 const { validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 const { secret } = require("../config/config");
-const generateAccessToken = (id, username) => {
+const generateAccessToken = (id, username, email, roles) => {
   const payload = {
     id,
     username,
+    email,
+    roles,
   };
-  return jwt.sign(payload, secret, { expiresIn: "24h" });
+  return jwt.sign(payload, secret, { expiresIn: "30m" });
 };
 
 class authController {
@@ -49,6 +51,7 @@ class authController {
 
       const user = await User.findOne({ email });
 
+      console.log(user);
       if (!user) {
         return res.status(400).json({ message: `user ${email} not found` });
       }
@@ -56,7 +59,13 @@ class authController {
       if (!validPassword) {
         return res.status(400).json({ message: "wrong password" });
       }
-      const token = generateAccessToken(user._id, user.username, user.surname);
+      const token = generateAccessToken(
+        user._id,
+        user.username,
+        user.email,
+        user.roles
+      );
+
       return res.json({ token, user });
     } catch (error) {
       console.log(error);
