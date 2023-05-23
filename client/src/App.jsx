@@ -2,11 +2,14 @@ import { Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import RegistrationPage from "./pages/RegistrationPage";
 import MainPage from "./pages/MainPage";
-// import MyWebSocket from "./components/MyWebSocket";
-import { useEffect } from "react";
+import { useCookies } from "react-cookie";
+import { Navigate } from "react-router-dom";
 import useWebSocket from "./hooks/useWebSocket";
 
 const App = () => {
+  const [cookies] = useCookies(["token"]);
+  const token = cookies.token;
+  console.log();
   const handleMessage = (message) => {
     console.log(`Přijata zpráva: ${message}`);
   };
@@ -20,9 +23,15 @@ const App = () => {
           path="/registration"
           element={<RegistrationPage></RegistrationPage>}
         ></Route>
-        <Route path="/home" element={<MainPage></MainPage>}>
+        <Route
+          path="/home"
+          element={
+            token ? <MainPage></MainPage> : <Navigate to={"/login"}></Navigate>
+          }
+        >
           <Route path="*" element={<h1>Page not found...</h1>}></Route>
         </Route>
+        <Route path="*" element={<h1>Page not found...</h1>}></Route>
       </Routes>
     </div>
   );

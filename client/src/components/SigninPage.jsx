@@ -6,13 +6,29 @@ import { NavLink, useNavigate } from "react-router-dom";
 import axios, { AxiosResponse } from "axios";
 import { useCookies } from "react-cookie";
 import { ThemeProvider } from "@mui/material";
-
+import jwtDecode from "jwt-decode";
+import { GoogleLogin } from "@react-oauth/google";
 import { logo } from "./Navbar";
+const responseMessage = (response) => {
+  console.log("zde je response");
+  console.log(response);
+  if (!response) {
+    return;
+  }
+  const USER_CREDENTIAL = jwtDecode(response.credential);
+  console.log(USER_CREDENTIAL);
+  // const data = jwt.decode(response.credential);
+  // console.log(data);
+};
 
-// interface SigninPageInput {
-//   email: string;
-//   password: string;
-// }
+const errorMessage = (error) => {
+  console.log(error);
+};
+const google = () => {
+  axios
+    .get("http://localhost:5003/login/google")
+    .then((res) => console.log(res));
+};
 
 const theme = createTheme({
   components: {
@@ -145,7 +161,13 @@ const SigninPage = () => {
             isIconActive={true}
             handlerEvent={loginFunction}
           />
-
+          {/* <a
+            href="http://localhost:5003/auth/google"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Google
+          </a> */}
           {/* INPUT END */}
           <ThemeProvider theme={theme}>
             <Button

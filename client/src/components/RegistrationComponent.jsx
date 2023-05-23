@@ -29,7 +29,7 @@ const theme = createTheme({
 });
 
 const RegistrationComponent = () => {
-  const [loading, setLoading] = useState < Boolean > false;
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [registrationEvent, setRegistrationEvent] = useState({
     username: "",

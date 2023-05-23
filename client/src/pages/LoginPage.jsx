@@ -7,7 +7,7 @@ import React from "react";
 
 const LoginPage = () => {
   return (
-    <MainLayout >
+    <MainLayout>
       <Box
         sx={{
           width: {
@@ -22,12 +22,13 @@ const LoginPage = () => {
         {/* GRID SYSTEM */}
         <Grid container height="90vh">
           <SigninPage />
+
           <TitleBox />
         </Grid>
-        {/* GRID SYSTEM END */}
+        ;{/* GRID SYSTEM END */}
       </Box>
     </MainLayout>
-  )
-}
+  );
+};
 
-export default LoginPage
+export default LoginPage;

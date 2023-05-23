@@ -17,6 +17,9 @@ router.post(
   controller.registration
 );
 router.post("/login", controller.login);
+router.post("/google", (req, res) => {
+  console.log(req);
+});
 router.get(
   "/users",
   authMiddleware,
