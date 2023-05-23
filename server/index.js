@@ -28,11 +28,10 @@ app.use(
     saveUninitialized: false,
   })
 );
-
-app.use(passport.initialize());
-app.use(passport.session());
-
 // #startregion
+// app.use(passport.initialize());
+// app.use(passport.session());
+
 // passport.serializeUser((user, done) => {
 //   // Uložte do relace pouze ID uživatele
 //   done(null, user._json.email);
