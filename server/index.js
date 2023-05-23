@@ -32,61 +32,64 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.serializeUser((user, done) => {
-  // Uložte do relace pouze ID uživatele
-  done(null, user._json.email);
-});
+// #startregion
+// passport.serializeUser((user, done) => {
+//   // Uložte do relace pouze ID uživatele
+//   done(null, user._json.email);
+// });
 
-passport.deserializeUser((email, done) => {
-  // Načtěte uživatele z databáze pomocí ID
-  User.findOne({ email: email }).then(result => {
-    // Manipulace s výsledkem
-    console.log(result);
-    
-      done(err, result);
-    }
-  })
-  .catch(error => {
-    // Zpracování chyby
-    console.error(error);
-  });
-});
+// passport.deserializeUser((email, done) => {
+//   // Načtěte uživatele z databáze pomocí ID
+//   User.findOne({ email: email }).then(result => {
+//     // Manipulace s výsledkem
+//     console.log(result);
 
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID:
-        "829824178601-mf6744k3vgci91iuf0q68118bd1kj34e.apps.googleusercontent.com",
-      clientSecret: "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",
-      callbackURL: "/auth/google/callback",
-    },
-    async (accessToken, refreshToken, profile, done) => {
-      // const user = {
-      //   id: profile.id,
-      //   name: profile.displayName,
-      //   email: profile.emails[0].value,
-      // };
+//       done(err, result);
+//     }
+//   })
+//   .catch(error => {
+//     // Zpracování chyby
+//     console.error(error);
+//   });
+// });
 
-      // const user1 = await User.findOne({ email: "krucfalushij@email.cz" });
-      // console.log(user1);
-      // done(null, user1);
-      done(null, profile);
-    }
-  )
-);
-app.get(
-  "/auth/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
-);
+// passport.use(
+//   new GoogleStrategy(
+//     {
+//       clientID:
+//         "829824178601-mf6744k3vgci91iuf0q68118bd1kj34e.apps.googleusercontent.com",
+//       clientSecret: "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",
+//       callbackURL: "/auth/google/callback",
+//     },
+//     async (accessToken, refreshToken, profile, done) => {
+//       // const user = {
+//       //   id: profile.id,
+//       //   name: profile.displayName,
+//       //   email: profile.emails[0].value,
+//       // };
 
-app.get(
-  "/auth/google/callback",
-  passport.authenticate("google", { failureRedirect: "/login" }),
-  (req, res) => {
-    // Přihlášení bylo úspěšné, můžete provést přesměrování nebo vrátit token atd.
-    res.redirect("/dashboard");
-  }
-);
+//       // const user1 = await User.findOne({ email: "krucfalushij@email.cz" });
+//       // console.log(user1);
+//       // done(null, user1);
+//       done(null, profile);
+//     }
+//   )
+// );
+// app.get(
+//   "/auth/google",
+//   passport.authenticate("google", { scope: ["profile", "email"] })
+// );
+
+// app.get(
+//   "/auth/google/callback",
+//   passport.authenticate("google", { failureRedirect: "/login" }),
+//   (req, res) => {
+//     // Přihlášení bylo úspěšné, můžete provést přesměrování nebo vrátit token atd.
+//     res.redirect("/dashboard");
+//   }
+// );
+// #endregion
+
 wss.on("connection", (ws) => {
   const interval = setInterval(() => {
     const message = "Toto je pravidelná zpráva každou vteřinu";
