@@ -1,33 +1,32 @@
 const express = require("express");
 PORT = process.env.PORT || 5003;
 PORTWS = process.env.PORTWS || 5000;
-const User = require("./models/User");
+
 const mongoose = require("mongoose");
 const authRouter = require("./router/authRouter");
 const app = express();
-let passport = require("passport");
-const GoogleStrategy = require("passport-google-oauth20").Strategy;
+// let passport = require("passport");
+// const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const cors = require("cors");
 const http = require("http");
 const WebSocket = require("ws");
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
-const session = require("express-session");
-const authController = require("./controller/authController");
-// mongodb+srv://admin:<password>@cluster0.hqfl9.mongodb.net/
+// const session = require("express-session");
+
 const Dao =
   "mongodb+srv://admin:132435Andrej@cluster0.hqfl9.mongodb.net/auth_roles?retryWrites=true&w=majority";
 
 app.use(cors({ origin: "http://localhost:3000" }));
 app.use(express.json());
 app.use("/auth", authRouter);
-app.use(
-  session({
-    secret: "your-secret-key",
-    resave: false,
-    saveUninitialized: false,
-  })
-);
+// app.use(
+//   session({
+//     secret: "your-secret-key",
+//     resave: false,
+//     saveUninitialized: false,
+//   })
+// );
 // #startregion
 // app.use(passport.initialize());
 // app.use(passport.session());

@@ -5,6 +5,9 @@ const bcrypt = require("bcryptjs");
 const { validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 const { secret } = require("../config/config");
+const registrateSchema = require("../validation/registrateValidation");
+const loginSchema = require("../validation/loginValidation");
+const Joi = require("joi");
 const generateAccessToken = (id, username, email, roles) => {
   const payload = {
     id,
@@ -18,12 +21,15 @@ const generateAccessToken = (id, username, email, roles) => {
 class authController {
   async registration(req, res) {
     try {
-      const errors = validationResult(req);
+      const { error, value } = registrateSchema.validate(req.body);
 
-      if (!errors.isEmpty()) {
-        return res.status(400).json({ message: "Registration error", errors });
+      if (error) {
+        // Vstupní data nesplňují požadavky schématu
+        console.log(error.message);
+        return res.status(404).json({ message: error.message });
       }
-      const { username, surname, email, password } = req.body;
+
+      const { username, surname, email, password } = value;
       const candidate = await User.findOne({ email });
       if (candidate) {
         return res.status(400).json({ message: "User already exist" });
@@ -42,17 +48,25 @@ class authController {
       return res.json({ message: "Users registration was success", user });
     } catch (error) {
       console.log(error);
-      res.status(400), json({ message: "Registration error" });
+      res.status(404), json({ message: "Registration error" });
     }
   }
   async login(req, res) {
     try {
-      const { email, password } = req.body;
+      const { error, value } = loginSchema.validate(req.body);
+
+      if (error) {
+        // Vstupní data nesplňují požadavky schématu
+        console.log(error.message);
+        return res.status(404).json({ message: error.message });
+      }
+
+      const { email, password } = value;
 
       const user = await User.findOne({ email });
 
       if (!user) {
-        return res.status(400).json({ message: `user ${email} not found` });
+        return res.status(404).json({ message: `user ${email} not found` });
       }
       const validPassword = bcrypt.compareSync(password, user.password);
       if (!validPassword) {
@@ -68,7 +82,7 @@ class authController {
       return res.json({ token, user });
     } catch (error) {
       console.log(error);
-      res.status(400), json({ message: "Login error" });
+      res.status(404), json({ message: "Login error" });
     }
   }
   async getUser(req, res) {
