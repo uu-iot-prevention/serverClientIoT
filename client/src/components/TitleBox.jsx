@@ -1,8 +1,8 @@
 import { Box, Typography } from "@mui/material";
+import React from "react";
 import Grid from "@mui/material/Unstable_Grid2";
 
-
-const TitleBox: React.FC = () => {
+const TitleBox = () => {
   return (
     <Grid xs={0} sm={0} md={6} lg={6} xl={6} minHeight={550}>
       <Box
@@ -10,11 +10,11 @@ const TitleBox: React.FC = () => {
           backgroundImage: `linear-gradient(135deg, rgba(0, 255, 60, 0.3) , rgba(0, 157, 255, 0.3))`,
           padding: "20px",
           display: {
-            xs: 'none',
-            sm: 'none',
-            md: 'flex',
-            lg: 'flex', 
-            xl: 'flex'
+            xs: "none",
+            sm: "none",
+            md: "flex",
+            lg: "flex",
+            xl: "flex",
           },
           flexDirection: "column",
           justifyContent: "center",
@@ -30,13 +30,12 @@ const TitleBox: React.FC = () => {
           alignItems="flex-start"
         >
           <Typography variant="h4" fontWeight="bold" color="whitesmoke" mb={3}>
-            Join Our  
+            Join Our
           </Typography>
           <Typography variant="body1" fontWeight="" color="whitesmoke">
-          UUA Community
+            UUA Community
           </Typography>
         </Box>
-
       </Box>
     </Grid>
   );

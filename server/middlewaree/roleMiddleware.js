@@ -16,13 +16,13 @@ module.exports = function (roles) {
       const { roles: userRoles } = jwt.verify(token, secret);
 
       let hasRole = false;
-      userRoles.forEach((role) => {
+      userRoles?.forEach((role) => {
         if (roles.includes(role)) {
           hasRole = true;
         }
       });
       if (!hasRole) {
-        return res.status(403).json({ massage: "You don't have access" });
+        return res.status(403).json({ message: "You don't have access" });
       }
       next();
     } catch (error) {

@@ -1,48 +1,47 @@
-import { Box, Button, colors, Typography, ThemeProvider, createTheme } from "@mui/material";
+import {
+  Box,
+  Button,
+  colors,
+  Typography,
+  ThemeProvider,
+  createTheme,
+} from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import React, { ChangeEvent, useState } from "react";
 import CustomInput from "./CustomInput";
 import { NavLink } from "react-router-dom";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { useNavigate } from "react-router-dom";
-import {logo} from "./Navbar"
-
-interface InputsData {
-  username: string;
-  surname: string;
-  email: string;
-  password: string;
-}
+import { logo } from "./Navbar";
 
 const theme = createTheme({
-  components:{
-    MuiButton:{
-      styleOverrides:{
-        root:{
-          
-          '&:hover': {
-            backgroundColor:"red"
-          }
-        }
-      }
-    }
-  }
-})
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          "&:hover": {
+            backgroundColor: "red",
+          },
+        },
+      },
+    },
+  },
+});
 
 const RegistrationComponent = () => {
-  const [loading, setLoading] = useState<Boolean>(false);
+  const [loading, setLoading] = useState < Boolean > false;
   const navigate = useNavigate();
-  const [registrationEvent, setRegistrationEvent] = useState<InputsData>({
+  const [registrationEvent, setRegistrationEvent] = useState({
     username: "",
     surname: "",
     email: "",
     password: "",
   });
-  const [errors, setErrors] = useState<AxiosResponse | AxiosError>();
+  const [errors, setErrors] = useState();
 
-  const handlerEvent = (event: ChangeEvent<HTMLInputElement>) => {
-    const nameInput: string = event.target.name;
-    const valueInput: string = event.target.value;
+  const handlerEvent = (event) => {
+    const nameInput = event.target.name;
+    const valueInput = event.target.value;
     // @ts-ignore
     setRegistrationEvent({
       ...registrationEvent,
@@ -53,15 +52,15 @@ const RegistrationComponent = () => {
   const postRegistration = async () => {
     try {
       setLoading(true);
-      const response: AxiosResponse = await axios.post(
+      const response = await axios.post(
         "http://localhost:5003/auth/registration",
         { ...registrationEvent }
       );
       setErrors(response.data.message);
       setLoading(false);
       navigate("/login");
-    } catch (e: any) {
-      setErrors(e.response.data.message);
+    } catch (e) {
+      setErrors(e?.response.data.message);
     }
   };
   if (loading) {
@@ -114,15 +113,10 @@ const RegistrationComponent = () => {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-
               }}
             >
-              
-
-              <img style={{ width: "100px"}} src={logo}></img>
-             
+              <img style={{ width: "100px" }} src={logo}></img>
             </Box>
-
 
             <Typography color="white" fontWeight="bold" mt={2} mb={3}>
               Registration to dashboard
@@ -148,7 +142,7 @@ const RegistrationComponent = () => {
             isIconActive={false}
           />
           <CustomInput
-          onSubmit={postRegistration}
+            onSubmit={postRegistration}
             handlerEvent={handlerEvent}
             type={"text"}
             label="Email"
@@ -158,7 +152,7 @@ const RegistrationComponent = () => {
           />
 
           <CustomInput
-          onSubmit={postRegistration}
+            onSubmit={postRegistration}
             handlerEvent={handlerEvent}
             type={"password"}
             label="Password"
@@ -168,24 +162,34 @@ const RegistrationComponent = () => {
           />
 
           {/* INPUT END */}
-<ThemeProvider theme={theme}>
-          <Button
-            variant="contained"
-            fullWidth
-            sx={{ mt: 4, boxShadow: `0 0 20px ${colors.red[900]}`, backgroundColor:"red", color:"white" }}
-            onClick={postRegistration}
-          >
-            Registration
-          </Button>
-          <NavLink to={"/login"}>
+          <ThemeProvider theme={theme}>
             <Button
               variant="contained"
               fullWidth
-              sx={{ mt: 3, boxShadow: `0 0 20px ${colors.red[900]}`, backgroundColor:"red", color:"white" }}
+              sx={{
+                mt: 4,
+                boxShadow: `0 0 20px ${colors.red[900]}`,
+                backgroundColor: "red",
+                color: "white",
+              }}
+              onClick={postRegistration}
             >
-              Sign In
+              Registration
             </Button>
-          </NavLink>
+            <NavLink to={"/login"}>
+              <Button
+                variant="contained"
+                fullWidth
+                sx={{
+                  mt: 3,
+                  boxShadow: `0 0 20px ${colors.red[900]}`,
+                  backgroundColor: "red",
+                  color: "white",
+                }}
+              >
+                Sign In
+              </Button>
+            </NavLink>
           </ThemeProvider>
           {errors && (
             <Typography color="white" fontWeight="bold" mt={2} mb={3}>

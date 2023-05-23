@@ -5,63 +5,58 @@ import CustomInput from "./CustomInput";
 import { NavLink, useNavigate } from "react-router-dom";
 import axios, { AxiosResponse } from "axios";
 import { useCookies } from "react-cookie";
-import {ThemeProvider} from "@mui/material";
-import {logo} from "./Navbar"
+import { ThemeProvider } from "@mui/material";
 
+import { logo } from "./Navbar";
 
-interface SigninPageInput {
-  email: string;
-  password: string;
-}
+// interface SigninPageInput {
+//   email: string;
+//   password: string;
+// }
 
 const theme = createTheme({
-  components:{
-    MuiButton:{
-      styleOverrides:{
-        root:{
-          
-          '&:hover': {
-            backgroundColor:"red"
-          }
-        }
-      }
-    }
-  }
-})
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          "&:hover": {
+            backgroundColor: "red",
+          },
+        },
+      },
+    },
+  },
+});
 
-const SigninPage: React.FC = () => {
-
+const SigninPage = () => {
   const navigate = useNavigate();
-  const [, setCookie] = useCookies (['token']);
-  const [loading, setLoading] = useState<boolean>();
-  const [login, setLogin] = useState<SigninPageInput>({
+  const [, setCookie] = useCookies(["token"]);
+  const [loading, setLoading] = useState();
+  const [login, setLogin] = useState({
     email: "",
     password: "",
   });
 
-  const [errors, setErrors] = useState<AxiosResponse|string>();
+  const [errors, setErrors] = useState();
 
-
-
-  const loginFunction = (event: ChangeEvent<HTMLInputElement>) => {
+  const loginFunction = (event) => {
     setLogin({ ...login, [event.target.name]: event.target.value });
-    setErrors('')
+    setErrors("");
   };
 
   const postLogin = async () => {
     try {
-      const response: AxiosResponse = await axios.post(
-        "http://localhost:5003/auth/login",
-        { ...login }
-      );
+      const response = await axios.post("http://localhost:5003/auth/login", {
+        ...login,
+      });
       setErrors(response.data.message);
       setLoading(false);
-      localStorage.setItem("name", response.data.user.username)
-      localStorage.setItem("surname", response.data.user.surname)
-      
-      setCookie("token", response.data.token)
-      navigate("/home")
-    } catch (e: any) {
+      localStorage.setItem("name", response.data.user.username);
+      localStorage.setItem("surname", response.data.user.surname);
+
+      setCookie("token", response.data.token);
+      navigate("/home");
+    } catch (e) {
       setErrors(e.response?.data.message);
     }
   };
@@ -124,8 +119,7 @@ const SigninPage: React.FC = () => {
 
               </Typography> */}
 
-              <img style={{ width: "100px"}} src={logo}></img>
-             
+              <img style={{ width: "100px" }} src={logo}></img>
             </Box>
 
             <Typography color="white" fontWeight="bold" mt={7} mb={3}>
@@ -134,7 +128,7 @@ const SigninPage: React.FC = () => {
           </Box>
 
           <CustomInput
-          onSubmit={postLogin}
+            onSubmit={postLogin}
             handlerEvent={loginFunction}
             type={"text"}
             label="Email"
@@ -153,25 +147,34 @@ const SigninPage: React.FC = () => {
           />
 
           {/* INPUT END */}
-<ThemeProvider theme={theme}>
-          <Button
-            variant="contained"
-            fullWidth
-            sx={{ mt: 4, boxShadow: `0 0 10px ${colors.red[500]}`, backgroundColor:"red", color:"white", }}
-            onClick={postLogin}
-          >
-            Login
-          </Button>
-          <NavLink to={"/registration"}>
+          <ThemeProvider theme={theme}>
             <Button
               variant="contained"
               fullWidth
-              sx={{ mt: 4, boxShadow: `0 0 10px ${colors.red[500]}`, backgroundColor:"red", color:"white" }}
+              sx={{
+                mt: 4,
+                boxShadow: `0 0 10px ${colors.red[500]}`,
+                backgroundColor: "red",
+                color: "white",
+              }}
+              onClick={postLogin}
             >
-              Registration
+              Login
             </Button>
-            
-          </NavLink>
+            <NavLink to={"/registration"}>
+              <Button
+                variant="contained"
+                fullWidth
+                sx={{
+                  mt: 4,
+                  boxShadow: `0 0 10px ${colors.red[500]}`,
+                  backgroundColor: "red",
+                  color: "white",
+                }}
+              >
+                Registration
+              </Button>
+            </NavLink>
           </ThemeProvider>
           {errors && (
             <Typography color="white" fontWeight="bold" mt={7} mb={3}>

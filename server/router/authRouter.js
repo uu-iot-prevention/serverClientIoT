@@ -17,6 +17,11 @@ router.post(
   controller.registration
 );
 router.post("/login", controller.login);
-router.get("/users", authMiddleware, controller.getUser);
+router.get(
+  "/users",
+  authMiddleware,
+  roleMiddleware(["USER"]),
+  controller.getUser
+);
 
 module.exports = router;

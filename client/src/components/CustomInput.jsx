@@ -9,17 +9,17 @@ import {
   Typography,
 } from "@mui/material";
 import { colors } from "../theme";
-import React, { ChangeEvent, useState } from "react";
+import React, { useState } from "react";
 
-interface PropsInfo {
-  name: string;
-  isIconActive: boolean;
-  label: string;
-  placeholder: string;
-  type: string;
-  handlerEvent?: (event: ChangeEvent<HTMLInputElement>) => void;
-  onSubmit:()=>void
-}
+// interface PropsInfo {
+//   name: string;
+//   isIconActive: boolean;
+//   label: string;
+//   placeholder: string;
+//   type: string;
+//   handlerEvent?: (event: ChangeEvent<HTMLInputElement>) => void;
+//   onSubmit:()=>void
+// }
 
 const CustomInput = ({
   isIconActive,
@@ -28,22 +28,21 @@ const CustomInput = ({
   type,
   handlerEvent,
   name,
-  onSubmit
-}: PropsInfo) => {
+  onSubmit,
+}) => {
   const [showPassword, setShowPassword] = useState(true);
-  const visiblePasswordFunction = (): void => {
+  const visiblePasswordFunction = () => {
     setShowPassword((prev) => !prev);
   };
 
-  const  onKeyDown = (event:React.KeyboardEvent<HTMLInputElement>): void => {
-    if (event.key === 'Enter') {
-
+  const onKeyDown = (event) => {
+    if (event.key === "Enter") {
       event.preventDefault();
       event.stopPropagation();
-      onSubmit()
+      onSubmit();
     }
-    }
-  const checkType = (type: string) => {
+  };
+  const checkType = (type) => {
     if (type === "text") {
       return "text";
     } else {
@@ -75,7 +74,7 @@ const CustomInput = ({
             fullWidth
             name={name}
             onChange={handlerEvent}
-           onKeyDown={onKeyDown}
+            onKeyDown={onKeyDown}
             sx={{
               bgcolor: colors.input[500],
               p: 1,
