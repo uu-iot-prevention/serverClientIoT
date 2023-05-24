@@ -1,6 +1,5 @@
 const express = require("express");
 PORT = process.env.PORT || 5003;
-PORTWS = process.env.PORTWS || 5000;
 const mongoose = require("mongoose");
 const authRouter = require("./router/authRouter");
 const app = express();
@@ -31,10 +30,11 @@ wss.on("connection", (ws) => {
   });
 });
 
-const startWs = () => {
+const startWs = async () => {
   try {
-    server.listen(PORTWS, () => {
-      console.log(`Server běží na portu ${PORTWS}`);
+    const port = 5000;
+    server.listen(port, () => {
+      console.log(`Server běží na portu ${port}`);
     });
   } catch (error) {
     console.log(error);
