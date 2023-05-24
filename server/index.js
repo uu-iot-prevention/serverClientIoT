@@ -4,6 +4,8 @@ PORTWS = process.env.PORTWS || 5000;
 
 const mongoose = require("mongoose");
 const authRouter = require("./router/authRouter");
+const stationRouter = require("./router/stationRouter");
+const userRouter = require("./router/userRouter");
 const app = express();
 // let passport = require("passport");
 // const GoogleStrategy = require("passport-google-oauth20").Strategy;
@@ -20,6 +22,8 @@ const Dao =
 app.use(cors({ origin: "http://localhost:3000" }));
 app.use(express.json());
 app.use("/auth", authRouter);
+app.use("/users", userRouter);
+app.use("/station", stationRouter);
 // app.use(
 //   session({
 //     secret: "your-secret-key",

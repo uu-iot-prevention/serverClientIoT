@@ -2,12 +2,12 @@ const User = require("../models/User");
 const Role = require("../models/Role");
 const { json } = require("express/lib/response");
 const bcrypt = require("bcryptjs");
-const { validationResult } = require("express-validator");
+
 const jwt = require("jsonwebtoken");
 const { secret } = require("../config/config");
 const registrateSchema = require("../validation/registrateValidation");
 const loginSchema = require("../validation/loginValidation");
-const Joi = require("joi");
+
 const generateAccessToken = (id, username, email, roles) => {
   const payload = {
     id,
@@ -44,6 +44,7 @@ class authController {
         roles: [userRole.value],
       });
 
+      console.log(user);
       await user.save();
       return res.json({ message: "Users registration was success", user });
     } catch (error) {
@@ -83,14 +84,6 @@ class authController {
     } catch (error) {
       console.log(error);
       res.status(404), json({ message: "Login error" });
-    }
-  }
-  async getUser(req, res) {
-    try {
-      const users = await User.find();
-      res.json(users);
-    } catch (error) {
-      console.log(error);
     }
   }
 }
