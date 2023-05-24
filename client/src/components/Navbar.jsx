@@ -18,8 +18,8 @@ const Navbar = ({ username, surname }) => {
   return (
     <div className="navbar-main-class">
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-        <NavLink className="navbar-brand" to="/home">
-          <img src={logo}></img>
+        <NavLink className="navbar-brand" to="/">
+          <img src={logo} alt="logo"></img>
         </NavLink>
         <button
           className="navbar-toggler"
@@ -27,7 +27,7 @@ const Navbar = ({ username, surname }) => {
           data-toggle="collapse"
           data-target="#navbarTogglerDemo02"
           aria-controls="navbarTogglerDemo02"
-          aria-expanded="false"
+          aria-expanded="true"
           aria-label="Toggle navigation"
         >
           <span className="navbar-toggler-icon"></span>
@@ -35,28 +35,39 @@ const Navbar = ({ username, surname }) => {
 
         <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
           <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
-            {/* <li className="nav-item active">
-        <NavLink className="nav-link" to="#">Home <span className="sr-only">(current)</span></NavLink>
-      </li> */}
+            <li className="nav-item active">
+              <NavLink className="nav-link" to="/home">
+                Home <span className="sr-only">(current)</span>
+              </NavLink>
+            </li>
+            <li className="nav-item active">
+              <NavLink className="nav-link" to="/about">
+                About <span className="sr-only">(about)</span>
+              </NavLink>
+            </li>
+            <li className="nav-item active">
+              <NavLink className="nav-link" to="/Dashboard">
+                Dashboard <span className="sr-only">(Dashboard)</span>
+              </NavLink>
+            </li>
           </ul>
-          {/* <form className="form-inline my-2 my-lg-0"> */}
-          <div className="user-icon-name">
-            {" "}
-            <AccountCircleOutlinedIcon
-              style={{ color: "white", fontSize: "35px" }}
-            ></AccountCircleOutlinedIcon>
-            <div className="username-navbar">{username}</div>
-            <div className="surname-navbar">{surname}</div>
-          </div>
+          <form className="form-inline my-2 my-lg-0">
+            <div className="user-icon-name">
+              {" "}
+              <AccountCircleOutlinedIcon
+                style={{ color: "white", fontSize: "35px" }}
+              ></AccountCircleOutlinedIcon>
+              <div className="username-navbar">{username}</div>
+              <div className="surname-navbar">{surname}</div>
+            </div>
 
-          <button
-            className="btn btn-outline-Light my-2 my-sm-0 buttonLogOut"
-            onClick={logOut}
-          >
-            Log Out
-          </button>
-
-          {/* </form> */}
+            <button
+              className="btn btn-outline-Light my-2 my-sm-0 buttonLogOut"
+              onClick={logOut}
+            >
+              Log Out
+            </button>
+          </form>
         </div>
       </nav>
     </div>

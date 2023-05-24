@@ -1,34 +1,15 @@
 import { Box, Button, colors, createTheme, Typography } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import React, { ChangeEvent, useState } from "react";
+import React, { useState } from "react";
 import CustomInput from "./CustomInput";
 import { NavLink, useNavigate } from "react-router-dom";
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import { useCookies } from "react-cookie";
+import { toast } from "react-toastify";
 import { ThemeProvider } from "@mui/material";
-import jwtDecode from "jwt-decode";
-import { GoogleLogin } from "@react-oauth/google";
-import { logo } from "./Navbar";
-const responseMessage = (response) => {
-  console.log("zde je response");
-  console.log(response);
-  if (!response) {
-    return;
-  }
-  const USER_CREDENTIAL = jwtDecode(response.credential);
-  console.log(USER_CREDENTIAL);
-  // const data = jwt.decode(response.credential);
-  // console.log(data);
-};
 
-const errorMessage = (error) => {
-  console.log(error);
-};
-const google = () => {
-  axios
-    .get("http://localhost:5003/login/google")
-    .then((res) => console.log(res));
-};
+// import { GoogleLogin } from "@react-oauth/google";
+import { logo } from "./Navbar";
 
 const theme = createTheme({
   components: {
@@ -53,11 +34,8 @@ const SigninPage = () => {
     password: "",
   });
 
-  const [errors, setErrors] = useState();
-
   const loginFunction = (event) => {
     setLogin({ ...login, [event.target.name]: event.target.value });
-    setErrors("");
   };
 
   const postLogin = async () => {
@@ -65,15 +43,16 @@ const SigninPage = () => {
       const response = await axios.post("http://localhost:5003/auth/login", {
         ...login,
       });
-      setErrors(response.data.message);
+      if (response?.data?.message) {
+        toast.success(response.data.message);
+      }
       setLoading(false);
       localStorage.setItem("name", response.data.user.username);
       localStorage.setItem("surname", response.data.user.surname);
-
       setCookie("token", response.data.token);
-      navigate("/home");
+      navigate("/");
     } catch (e) {
-      setErrors(e.response?.data.message);
+      toast.error(e.response?.data.message);
     }
   };
   if (loading) {
@@ -135,7 +114,7 @@ const SigninPage = () => {
 
               </Typography> */}
 
-              <img style={{ width: "100px" }} src={logo}></img>
+              <img style={{ width: "100px" }} src={logo} alt="logo2"></img>
             </Box>
 
             <Typography color="white" fontWeight="bold" mt={7} mb={3}>
@@ -198,11 +177,6 @@ const SigninPage = () => {
               </Button>
             </NavLink>
           </ThemeProvider>
-          {errors && (
-            <Typography color="white" fontWeight="bold" mt={7} mb={3}>
-              {`${errors}`}
-            </Typography>
-          )}
         </Box>
       </Box>
     </Grid>

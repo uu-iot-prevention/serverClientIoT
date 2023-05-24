@@ -27,7 +27,7 @@ class stationController {
         value;
       const candidate = await Station.findOne({ idStation });
       if (candidate) {
-        return res.status(400).json({ message: "User already exist" });
+        return res.status(400).json({ message: "Station already exist" });
       }
 
       const station = new Station({

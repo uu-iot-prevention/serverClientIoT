@@ -7,12 +7,13 @@ import {
   createTheme,
 } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import React, { ChangeEvent, useState } from "react";
+import React, { useState } from "react";
 import CustomInput from "./CustomInput";
 import { NavLink } from "react-router-dom";
-import axios, { AxiosError, AxiosResponse } from "axios";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { logo } from "./Navbar";
+import { toast } from "react-toastify";
 
 const theme = createTheme({
   components: {
@@ -37,7 +38,6 @@ const RegistrationComponent = () => {
     email: "",
     password: "",
   });
-  const [errors, setErrors] = useState();
 
   const handlerEvent = (event) => {
     const nameInput = event.target.name;
@@ -56,11 +56,14 @@ const RegistrationComponent = () => {
         "http://localhost:5003/auth/registration",
         { ...registrationEvent }
       );
-      setErrors(response.data.message);
+      if (response?.data?.message) {
+        toast.success(response.data.message);
+      }
+
       setLoading(false);
       navigate("/login");
     } catch (e) {
-      setErrors(e?.response.data.message);
+      toast.error(e?.response.data.message);
     }
   };
   if (loading) {
@@ -115,14 +118,13 @@ const RegistrationComponent = () => {
                 justifyContent: "center",
               }}
             >
-              <img style={{ width: "100px" }} src={logo}></img>
+              <img style={{ width: "100px" }} src={logo} alt="logo1"></img>
             </Box>
 
             <Typography color="white" fontWeight="bold" mt={2} mb={3}>
               Registration to dashboard
             </Typography>
           </Box>
-
           <CustomInput
             onSubmit={postRegistration}
             type={"text"}
@@ -150,7 +152,6 @@ const RegistrationComponent = () => {
             placeholder="Enter your Email..."
             isIconActive={false}
           />
-
           <CustomInput
             onSubmit={postRegistration}
             handlerEvent={handlerEvent}
@@ -160,7 +161,6 @@ const RegistrationComponent = () => {
             name="password"
             isIconActive={true}
           />
-
           {/* INPUT END */}
           <ThemeProvider theme={theme}>
             <Button
@@ -191,11 +191,6 @@ const RegistrationComponent = () => {
               </Button>
             </NavLink>
           </ThemeProvider>
-          {errors && (
-            <Typography color="white" fontWeight="bold" mt={2} mb={3}>
-              {`${errors}`}
-            </Typography>
-          )}
         </Box>
       </Box>
     </Grid>
