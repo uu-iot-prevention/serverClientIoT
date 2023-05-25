@@ -1,6 +1,6 @@
 const express = require("express");
 PORT = process.env.PORT || 5003;
-PORTWS = process.env.PORTWS || 5000;
+PORTWS = process.env.PORTWS || 5001;
 
 const mongoose = require("mongoose");
 const authRouter = require("./router/authRouter");

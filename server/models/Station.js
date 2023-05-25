@@ -6,6 +6,7 @@ const Station = new Schema({
   roles: [{ type: String, ref: "Role" }],
   dataTemperature: [
     {
+      _id: false,
       time: { type: Date, default: Date.now },
       value: { type: String, required: true },
     },

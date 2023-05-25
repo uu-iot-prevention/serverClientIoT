@@ -2,6 +2,7 @@ const Station = require("../models/Station");
 const stationSchema = require("../validation/stationValidation");
 const jwt = require("jsonwebtoken");
 const { secret } = require("../config/config");
+
 const generateAccessToken = (id, idStation, roles) => {
   const payload = {
     id,
@@ -11,6 +12,56 @@ const generateAccessToken = (id, idStation, roles) => {
   return jwt.sign(payload, secret, { expiresIn: "30m" });
 };
 class stationController {
+  async login(req, res) {
+    try {
+      const { error, value } = stationSchema.stationSchemaLogin.validate(
+        req.body
+      );
+
+      if (error) {
+        // Vstupní data nesplňují požadavky schématu
+        console.log(error.message);
+        return res.status(404).json({ message: error.message });
+      }
+
+      const { idStation, roles } = value;
+
+      const station = await Station.findOne({ idStation });
+
+      if (!station) {
+        return res
+          .status(404)
+          .json({ message: `station ${idStation} not found` });
+      }
+
+      const token = generateAccessToken(
+        station._id,
+        station.idStation,
+        station.roles
+      );
+
+      return res.json({ token, station });
+    } catch (error) {
+      console.log(error);
+      res.status(404), json({ message: "Login error" });
+    }
+  }
+  async listStations(req, res) {
+    try {
+      let data = await Station.find();
+      let out = [];
+      for (let d of data) {
+        out.push({
+          idStation: d.idStation,
+          stationName: d.stationName,
+        });
+        res.json(out);
+      }
+    } catch (e) {
+      console.error(e);
+      res.status(400).send(e);
+    }
+  }
   async registration(req, res) {
     try {
       const { error, value } = stationSchema.stationSchemaRegistrate.validate(
@@ -45,38 +96,101 @@ class stationController {
       res.status(404), json({ message: "Registration error" });
     }
   }
-  async login(req, res) {
+  async postTemperature(req, res) {
     try {
-      const { error, value } = stationSchema.stationSchemaLogin.validate(
-        req.body
-      );
-
-      if (error) {
-        // Vstupní data nesplňují požadavky schématu
-        console.log(error.message);
-        return res.status(404).json({ message: error.message });
+      const dataTemperature = req.body;
+      if (!dataTemperature) {
+        res.status(404).json({ message: "data errors" });
       }
+      for (let index = 0; index < dataTemperature.length; index++) {
+        const element = dataTemperature[index];
+        const station = await Station.findOne({
+          idStation: element.idStation,
+        });
+        if (!station) {
+          const newStation = {
+            idStation: element.idStation,
+            stationName: element.idStation,
+            roles: ["STATION"],
+            dataTemperature: [],
+            stationAlert: [],
+          };
+          const { error, value } =
+            stationSchema.stationSchemaRegistrate.validate(newStation);
+          if (error) {
+            // Vstupní data nesplňují požadavky schématu
+            console.log(error.message);
+            return res.status(404).json({ message: error.message });
+          }
 
-      const { idStation, roles } = value;
+          const {
+            idStation,
+            stationName,
+            roles,
+            dataTemperature,
+            stationAlert,
+          } = value;
 
-      const station = await Station.findOne({ idStation });
+          const station = new Station({
+            idStation,
+            stationName,
+            roles,
+            dataTemperature,
+            stationAlert,
+          });
+          await station.save();
 
-      if (!station) {
-        return res
-          .status(404)
-          .json({ message: `station ${idStation} not found` });
+          const newStationDB = await Station.findOne({
+            idStation: element.idStation,
+          });
+          const data = [
+            ...newStationDB?.dataTemperature,
+            ...element?.dataTemperature,
+          ];
+          newStationDB.dataTemperature = data;
+          await newStationDB.save();
+        } else {
+          const data = [
+            ...station?.dataTemperature,
+            ...element?.dataTemperature,
+          ];
+          station.dataTemperature = data;
+          await station.save();
+        }
       }
-
-      const token = generateAccessToken(
-        station._id,
-        station.idStation,
-        station.roles
-      );
-
-      return res.json({ token, station });
+      res.status(200).json({ message: "data save was success " });
     } catch (error) {
-      console.log(error);
-      res.status(404), json({ message: "Login error" });
+      res.status(404).json({ message: "nefunguje" });
+    }
+  }
+  async getTempByDay(req, res) {
+    try {
+      let date;
+      if (!req.body.date) {
+        date = new Date();
+      } else {
+        date = new Date(req.body.date);
+      }
+      let record = await Station.find({ idStation: req.body.idStation });
+      let tempData = record[0].dataTemperature;
+      let out = [];
+      for (let t of tempData) {
+        let newDate = t.time;
+        if (
+          date.getDay() === newDate.getDay() &&
+          date.getMonth() === newDate.getMonth() &&
+          date.getFullYear() === newDate.getFullYear()
+        ) {
+          out.push(t);
+        }
+      }
+      if (out.length === 0) {
+        res.status(400).json("NO DATA");
+      }
+      res.json(out);
+    } catch (e) {
+      console.error(e);
+      res.status(400).send(e);
     }
   }
 }

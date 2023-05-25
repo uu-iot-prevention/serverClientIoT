@@ -2,20 +2,26 @@ const User = require("../models/User");
 const Role = require("../models/Role");
 const { json } = require("express/lib/response");
 const bcrypt = require("bcryptjs");
-
+const timeHelper = require("../helpers/timeHelpers");
 const jwt = require("jsonwebtoken");
 const { secret } = require("../config/config");
 const registrateSchema = require("../validation/registrateValidation");
 const loginSchema = require("../validation/loginValidation");
 
 const generateAccessToken = (id, username, email, roles) => {
+  const expiresInMinutes = 30; // Doba platnosti tokenu v minutách
+  const expTime = timeHelper.addMinutesToCurrentDate(expiresInMinutes);
   const payload = {
     id,
     username,
     email,
     roles,
   };
-  return jwt.sign(payload, secret, { expiresIn: "30m" });
+  // console.log(expTime);
+  return {
+    token: jwt.sign(payload, secret, { expiresIn: expiresInMinutes * 60 }),
+    exp: expTime,
+  };
 };
 
 class authController {
@@ -49,7 +55,7 @@ class authController {
       return res.json({ message: "Users registration was success", user });
     } catch (error) {
       console.log(error);
-      res.status(404), json({ message: "Registration error" });
+      res.status(404).json({ message: "Registration error" });
     }
   }
   async login(req, res) {
@@ -79,9 +85,20 @@ class authController {
         user.email,
         user.roles
       );
-      res.set("Authorization", `Bearer ${token}`);
 
-      return res.json({ token, user });
+      res.set("Authorization", `Bearer ${token}`);
+      const user1 = {
+        username: user.username,
+        email: user.email,
+        surname: user.surname,
+        roles: user.roles,
+      };
+
+      return res.json({
+        token: token.token,
+        exp: token.exp,
+        user: { ...user1 },
+      });
     } catch (error) {
       console.log(error);
       res.status(404), json({ message: "Login error" });

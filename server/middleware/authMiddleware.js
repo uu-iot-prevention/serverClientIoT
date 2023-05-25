@@ -13,6 +13,10 @@ module.exports = function (req, res, next) {
       return res.status(403).json({ message: "User is not authorized" });
     }
     const decodedData = jwt.verify(token, secret);
+    console.log(decodedData);
+    if (!decodedData) {
+      return res.status(403).json({ message: "token expired" });
+    }
     req.user = decodedData;
     next();
   } catch (error) {
