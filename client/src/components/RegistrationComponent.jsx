@@ -7,13 +7,14 @@ import {
   createTheme,
 } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CustomInput from "./CustomInput";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { logo } from "./Navbar";
 import { toast } from "react-toastify";
+import { checkPasswordEquality } from "../helper/helper";
 
 const theme = createTheme({
   components: {
@@ -32,6 +33,8 @@ const theme = createTheme({
 const RegistrationComponent = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [samePassword, setSamePassword] = useState(false);
+  const [againPassword, setAgainePassword] = useState("");
   const [registrationEvent, setRegistrationEvent] = useState({
     username: "",
     surname: "",
@@ -39,10 +42,30 @@ const RegistrationComponent = () => {
     password: "",
   });
 
+  const checkPassword = (password, confirmPassword) => {
+    if (!password) {
+      return;
+    }
+    if (!confirmPassword) {
+      return;
+    }
+    setSamePassword(true);
+    if (checkPasswordEquality(password, confirmPassword)) {
+      setSamePassword(false);
+    } else {
+      setSamePassword(true);
+    }
+  };
+  const funcAgainePassword = (event) => {
+    setAgainePassword(event.target.value);
+  };
+  useEffect(() => {
+    checkPassword(registrationEvent?.password, againPassword);
+  }, [againPassword, registrationEvent?.password]);
   const handlerEvent = (event) => {
     const nameInput = event.target.name;
     const valueInput = event.target.value;
-    // @ts-ignore
+
     setRegistrationEvent({
       ...registrationEvent,
       [nameInput]: valueInput,
@@ -51,6 +74,10 @@ const RegistrationComponent = () => {
 
   const postRegistration = async () => {
     try {
+      if (samePassword) {
+        toast.error("Hesla se neshodují");
+        return;
+      }
       setLoading(true);
       const response = await axios.post(
         "http://localhost:5003/auth/registration",
@@ -98,7 +125,7 @@ const RegistrationComponent = () => {
           borderRadius: {
             xs: "30px",
             sm: "30px",
-            md: "30px 0 0 30px",
+            md: "20px 0 0 30px",
             lg: "30px 0 0 30px",
             xl: "30px 0 0 30px",
           },
@@ -109,7 +136,7 @@ const RegistrationComponent = () => {
             {/* LOGO */}
             <Box
               sx={{
-                mt: "40px",
+                mt: "5px",
                 width: "50px",
                 height: "50px",
                 borderRadius: "12px",
@@ -121,7 +148,7 @@ const RegistrationComponent = () => {
               <img style={{ width: "100px" }} src={logo} alt="logo1"></img>
             </Box>
 
-            <Typography color="white" fontWeight="bold" mt={2} mb={3}>
+            <Typography color="white" fontWeight="bold">
               Registration to dashboard
             </Typography>
           </Box>
@@ -161,13 +188,24 @@ const RegistrationComponent = () => {
             name="password"
             isIconActive={true}
           />
+
+          <CustomInput
+            onSubmit={postRegistration}
+            handlerEvent={funcAgainePassword}
+            type={"password"}
+            label="Password again"
+            placeholder="Enter your password..."
+            name="password_again"
+            isIconActive={true}
+            style={samePassword}
+          />
           {/* INPUT END */}
           <ThemeProvider theme={theme}>
             <Button
               variant="contained"
               fullWidth
               sx={{
-                mt: 4,
+                mt: 2,
                 boxShadow: `0 0 20px ${colors.red[900]}`,
                 backgroundColor: "red",
                 color: "white",
