@@ -43,6 +43,7 @@ const RegistrationComponent = () => {
   });
 
   const checkPassword = (password, confirmPassword) => {
+    setSamePassword(false);
     if (!password) {
       return;
     }
@@ -76,6 +77,11 @@ const RegistrationComponent = () => {
     try {
       if (samePassword) {
         toast.error("Hesla se neshodují");
+        return;
+      }
+      if (!againPassword) {
+        // toast.error("Zadejte heslo pro kontrolu");2
+        setSamePassword(true);
         return;
       }
       setLoading(true);

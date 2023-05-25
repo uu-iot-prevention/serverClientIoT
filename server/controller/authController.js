@@ -79,6 +79,7 @@ class authController {
         user.email,
         user.roles
       );
+      res.set("Authorization", `Bearer ${token}`);
 
       return res.json({ token, user });
     } catch (error) {

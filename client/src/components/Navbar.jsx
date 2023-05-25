@@ -13,6 +13,7 @@ const Navbar = ({ username, surname }) => {
     removeCookie("token");
     localStorage.removeItem("name");
     localStorage.removeItem("surname");
+    localStorage.removeItem("role");
   };
 
   return (

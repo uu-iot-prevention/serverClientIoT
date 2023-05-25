@@ -49,6 +49,8 @@ const SigninPage = () => {
       setLoading(false);
       localStorage.setItem("name", response.data.user.username);
       localStorage.setItem("surname", response.data.user.surname);
+      localStorage.setItem("role", response.data.user?.roles[0]);
+      console.log(response);
       setCookie("token", response.data.token);
       navigate("/");
     } catch (e) {
