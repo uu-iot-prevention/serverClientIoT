@@ -2,6 +2,8 @@ import { Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import RegistrationPage from "./pages/RegistrationPage";
 import MainPage from "./pages/MainPage";
+import AdminPage from "./pages/AdminPage";
+import AD from "./pages/MainPage";
 // import MyWebSocket from "./components/MyWebSocket";
 import { useEffect } from "react";
 import useWebSocket from "./hooks/useWebSocket";
@@ -22,6 +24,8 @@ const App = () => {
         ></Route>
         <Route path="/home" element={<MainPage></MainPage>}>
           <Route path="*" element={<h1>Page not found...</h1>}></Route>
+        </Route>
+        <Route path="/admin" element={<AdminPage></AdminPage>}>
         </Route>
       </Routes>
     </div>
