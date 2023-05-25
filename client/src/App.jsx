@@ -12,7 +12,7 @@ const App = () => {
   const handleMessage = (message) => {
     console.log(`Přijata zpráva: ${message}`);
   };
-  useWebSocket("ws://localhost:5000", handleMessage);
+  useWebSocket("ws://localhost:5001", handleMessage);
 
   return (
     <div>
