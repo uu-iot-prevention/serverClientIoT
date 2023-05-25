@@ -163,6 +163,73 @@ class stationController {
       res.status(404).json({ message: "nefunguje" });
     }
   }
+  async postAlert(req, res) {
+    try {
+      const alertBody = req.body;
+      if (!alertBody) {
+        res.status(404).json({ message: "data errors" });
+      }
+
+      let alert = await Station.findOne({ idStation: alertBody.idStation });
+      if (!alert) {
+        const newStation = {
+          idStation: alertBody.idStation,
+          stationName: alertBody.idStation,
+          roles: ["STATION"],
+          dataTemperature: [],
+          stationAlert: [],
+        };
+        const { error, value } =
+          stationSchema.stationSchemaRegistrate.validate(newStation);
+        if (error) {
+          // Vstupní data nesplňují požadavky schématu
+          console.log(error.message);
+          return res.status(404).json({ message: error.message });
+        }
+
+        const { idStation, stationName, roles, dataTemperature, stationAlert } =
+          value;
+
+        const station = new Station({
+          idStation,
+          stationName,
+          roles,
+          dataTemperature,
+          stationAlert,
+        });
+        await station.save();
+      }
+      alert = await Station.findOne({ idStation: alertBody.idStation });
+      if (!alert) {
+        res.status(404).json({ message: "Station is not found" });
+      }
+      let messageAlert;
+      switch (alertBody.type) {
+        case "SOS":
+          messageAlert = "Zmacklo se tlacitko SOS";
+          break;
+        case "FIRE":
+          messageAlert = "Hori ";
+          break;
+        case "FIREWARNING":
+          messageAlert = "Varovani o zvysene teplote";
+          break;
+
+        default:
+          break;
+      }
+      alertBody.message = messageAlert;
+
+      const dataAlert = [...alert.stationAlert, ...[alertBody]];
+      alert.stationAlert = dataAlert;
+
+      await alert.save();
+
+      res.status(200).json({ message: "data save was success ", alertBody });
+    } catch (error) {
+      res.status(404).json({ message: error.message });
+    }
+  }
   async getTempByDay(req, res) {
     try {
       let date;

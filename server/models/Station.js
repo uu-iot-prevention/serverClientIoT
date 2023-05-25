@@ -13,10 +13,13 @@ const Station = new Schema({
   ],
   stationAlert: [
     {
-      _id: Schema.Types.ObjectId,
       time: { type: Date, default: Date.now },
       message: { type: String, required: true },
-      type: { type: [String], enum: ["SOS", "FIRE"], required: true },
+      type: {
+        type: [String],
+        enum: ["SOS", "FIRE", "FIREWARNING"],
+        required: true,
+      },
     },
   ],
 });

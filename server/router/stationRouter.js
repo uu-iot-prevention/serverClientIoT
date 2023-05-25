@@ -10,6 +10,7 @@ router.post(
   roleMiddleware(["STATION"]),
   controller.postTemperature
 );
+router.post("/alert-post/", roleMiddleware(["STATION"]), controller.postAlert);
 router.get("/stationList", controller.listStations);
 router.get("/temperature", controller.getTempByDay);
 
