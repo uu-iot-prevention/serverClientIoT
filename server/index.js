@@ -108,9 +108,8 @@ wss.on("connection", (ws) => {
 
 const startWs = async () => {
   try {
-    const port = 5000;
-    server.listen(port, () => {
-      console.log(`Server běží na portu ${port}`);
+    server.listen(PORTWS, () => {
+      console.log(`WebSocket server běží na portu ${PORTWS}`);
     });
   } catch (error) {
     console.log(error);
