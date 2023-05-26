@@ -13,7 +13,6 @@ export default function useGetAxios(url) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        debugger;
         const headers = { Authorization: `Bearer ${token}` };
         const response = await axios.get(url, { headers });
 

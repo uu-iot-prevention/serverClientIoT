@@ -16,7 +16,7 @@ const MainPage = () => {
   const [cookies] = useCookies(["token"]);
 
   const { data, loading, error } = useGetAxios(
-    "https://localhost:5003/station/stationList"
+    "http://localhost:5003/station/stationList"
   );
   useEffect(() => {
     if (error?.response.data?.message) {
@@ -24,6 +24,9 @@ const MainPage = () => {
     }
   }, [error?.response.data?.message]);
 
+  if (!data) {
+    return;
+  }
   console.log(data);
   if (loading) {
     return <div>Loading...</div>;
