@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import RegistrationPage from "./pages/RegistrationPage";
 import MainPage from "./pages/MainPage";
+
 import useWebSocket from "./hooks/useWebSocket";
 import "./index.css";
 import AuthorisationComponent from "./components/authorisationComponent/AuthorisationComponent";
@@ -72,8 +73,6 @@ const App = () => {
           ></Route>
           <Route path="*" element={<h1>Page not found...</h1>}></Route>
         </Route>
-
-        <Route path="*" element={<h1>Page not found...</h1>}></Route>
       </Routes>
     </div>
   );
