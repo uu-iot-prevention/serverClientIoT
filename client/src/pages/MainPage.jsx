@@ -12,6 +12,13 @@ import tempImg from "./../icons/temp.png";
 import sosImg from "./../icons/sos.png"
 import Dashboard from './../components/Dashboard';
 
+import { toast } from "react-toastify";
+
+
+import useGetAxios from "../hooks/useGetAxios";
+const pokus = () => {
+  toast.info("ahoj");
+};
 const MainPage = () => {
   const [user] = useState({
     username: localStorage.getItem("name"),
@@ -19,12 +26,12 @@ const MainPage = () => {
   });
   const [cookies] = useCookies(["token"]);
 
-  const { data, loading, error } = useGetAxios(
-    "http://localhost:5003/auth/users"
-  );
-
-  console.log(data);
-  console.log(error?.response.data?.message);
+  const { data, loading, error } = useGetAxios("http://localhost:5003/users/");
+  useEffect(() => {
+    if (error?.response.data?.message) {
+      toast.error(error?.response.data?.message);
+    }
+  }, [error?.response.data?.message]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -102,7 +109,11 @@ const DataBoxes = [
       {cookies?.token ? (
         <div>
           <Navbar username={user.username} surname={user.surname}></Navbar>
+
           <Dashboard DataBoxes={DataBoxes} generatedData={generatedData}/>
+
+          <button onClick={pokus}>Cklikni</button>
+
           <Outlet></Outlet>
         </div>
       ) : (
