@@ -2,9 +2,13 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: roboto, 'sans-serif';
+  font-family: roboto, "sans-serif";
 }
 
-body{
+body {
   height: 100vh;
+}
+
+.toast {
+  display: absolute !important;
 }

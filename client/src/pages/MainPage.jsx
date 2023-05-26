@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import { useCookies } from "react-cookie";
 import { Navigate, Outlet } from "react-router-dom";
-// import axios from 'axios';
-import { getDataFromUrl } from "../helper/helper";
-import useGetAxios from "../hooks/useGetAxios";
+import { toast } from "react-toastify";
 
+import useGetAxios from "../hooks/useGetAxios";
+const pokus = () => {
+  toast.info("ahoj");
+};
 const MainPage = () => {
   const [user] = useState({
     username: localStorage.getItem("name"),
@@ -13,12 +15,12 @@ const MainPage = () => {
   });
   const [cookies] = useCookies(["token"]);
 
-  const { data, loading, error } = useGetAxios(
-    "http://localhost:5003/auth/users"
-  );
-
-  console.log(data);
-  console.log(error?.response.data?.message);
+  const { data, loading, error } = useGetAxios("http://localhost:5003/users/");
+  useEffect(() => {
+    if (error?.response.data?.message) {
+      toast.error(error?.response.data?.message);
+    }
+  }, [error?.response.data?.message]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -29,7 +31,7 @@ const MainPage = () => {
       {cookies?.token ? (
         <div>
           <Navbar username={user.username} surname={user.surname}></Navbar>
-
+          <button onClick={pokus}>Cklikni</button>
           <Outlet></Outlet>
         </div>
       ) : (
