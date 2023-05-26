@@ -260,6 +260,24 @@ class stationController {
       res.status(400).send(e);
     }
   }
+  async getAllert(req, res){
+    try {
+      let id = req.body.id;
+      if(!id){
+        res.status(400).json("Invalid body");
+      }
+      let record = await Station.find({ idStation: id });
+      let alerts = record[0].stationAlert;
+      if(!alerts){
+        res.json("NO ALERTS")
+      }else {
+        res.json(alerts);
+      }
+    }catch (e) {
+      console.error(e);
+      res.status(400).json(e);
+    }
+  }
 }
 
 module.exports = new stationController();
