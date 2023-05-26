@@ -106,10 +106,11 @@ wss.on("connection", (ws) => {
   });
 });
 
-const startWs = () => {
+const startWs = async () => {
   try {
-    server.listen(PORTWS, () => {
-      console.log(`Server běží na portu ${PORTWS}`);
+    const port = 5000;
+    server.listen(port, () => {
+      console.log(`Server běží na portu ${port}`);
     });
   } catch (error) {
     console.log(error);
