@@ -15,7 +15,6 @@ import Dashboard from './../components/Dashboard';
 import { toast } from "react-toastify";
 
 
-import useGetAxios from "../hooks/useGetAxios";
 const pokus = () => {
   toast.info("ahoj");
 };
