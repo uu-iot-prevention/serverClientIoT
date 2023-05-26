@@ -15,13 +15,16 @@ const MainPage = () => {
   });
   const [cookies] = useCookies(["token"]);
 
-  const { data, loading, error } = useGetAxios("http://localhost:5003/users/");
+  const { data, loading, error } = useGetAxios(
+    "https://localhost:5003/station/stationList"
+  );
   useEffect(() => {
     if (error?.response.data?.message) {
       toast.error(error?.response.data?.message);
     }
   }, [error?.response.data?.message]);
 
+  console.log(data);
   if (loading) {
     return <div>Loading...</div>;
   }

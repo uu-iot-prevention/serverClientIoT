@@ -86,7 +86,6 @@ class authController {
         user.roles
       );
 
-      res.set("Authorization", `Bearer ${token}`);
       const user1 = {
         username: user.username,
         email: user.email,

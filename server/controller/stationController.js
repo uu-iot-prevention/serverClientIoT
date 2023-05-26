@@ -49,14 +49,13 @@ class stationController {
   async listStations(req, res) {
     try {
       let data = await Station.find();
-      let out = [];
-      for (let d of data) {
-        out.push({
-          idStation: d.idStation,
-          stationName: d.stationName,
-        });
-        res.json(out);
-      }
+
+      const newDatas = data.map((value) => ({
+        idStation: value.idStation,
+        stationName: value.stationName,
+      }));
+
+      res.status(200).json(newDatas);
     } catch (e) {
       console.error(e);
       res.status(400).send(e);
@@ -260,20 +259,20 @@ class stationController {
       res.status(400).send(e);
     }
   }
-  async getAllert(req, res){
+  async getAllert(req, res) {
     try {
       let id = req.body.id;
-      if(!id){
+      if (!id) {
         res.status(400).json("Invalid body");
       }
       let record = await Station.find({ idStation: id });
       let alerts = record[0].stationAlert;
-      if(!alerts){
-        res.json("NO ALERTS")
-      }else {
+      if (!alerts) {
+        res.json("NO ALERTS");
+      } else {
         res.json(alerts);
       }
-    }catch (e) {
+    } catch (e) {
       console.error(e);
       res.status(400).json(e);
     }
