@@ -7,12 +7,14 @@ import {
   createTheme,
 } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import React, { ChangeEvent, useState } from "react";
+import React, { useEffect, useState } from "react";
 import CustomInput from "./CustomInput";
 import { NavLink } from "react-router-dom";
-import axios, { AxiosError, AxiosResponse } from "axios";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { logo } from "./Navbar";
+import { toast } from "react-toastify";
+import { checkPasswordEquality } from "../helper/helper";
 
 const theme = createTheme({
   components: {
@@ -29,20 +31,42 @@ const theme = createTheme({
 });
 
 const RegistrationComponent = () => {
-  const [loading, setLoading] = useState < Boolean > false;
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [samePassword, setSamePassword] = useState(false);
+  const [againPassword, setAgainePassword] = useState("");
   const [registrationEvent, setRegistrationEvent] = useState({
     username: "",
     surname: "",
     email: "",
     password: "",
   });
-  const [errors, setErrors] = useState();
 
+  const checkPassword = (password, confirmPassword) => {
+    setSamePassword(false);
+    if (!password) {
+      return;
+    }
+    if (!confirmPassword) {
+      return;
+    }
+    setSamePassword(true);
+    if (checkPasswordEquality(password, confirmPassword)) {
+      setSamePassword(false);
+    } else {
+      setSamePassword(true);
+    }
+  };
+  const funcAgainePassword = (event) => {
+    setAgainePassword(event.target.value);
+  };
+  useEffect(() => {
+    checkPassword(registrationEvent?.password, againPassword);
+  }, [againPassword, registrationEvent?.password]);
   const handlerEvent = (event) => {
     const nameInput = event.target.name;
     const valueInput = event.target.value;
-    // @ts-ignore
+
     setRegistrationEvent({
       ...registrationEvent,
       [nameInput]: valueInput,
@@ -51,16 +75,28 @@ const RegistrationComponent = () => {
 
   const postRegistration = async () => {
     try {
+      if (samePassword) {
+        toast.error("Hesla se neshodují");
+        return;
+      }
+      if (!againPassword) {
+        // toast.error("Zadejte heslo pro kontrolu");2
+        setSamePassword(true);
+        return;
+      }
       setLoading(true);
       const response = await axios.post(
         "http://localhost:5003/auth/registration",
         { ...registrationEvent }
       );
-      setErrors(response.data.message);
+      if (response?.data?.message) {
+        toast.success(response.data.message);
+      }
+
       setLoading(false);
       navigate("/login");
     } catch (e) {
-      setErrors(e?.response.data.message);
+      toast.error(e?.response.data.message);
     }
   };
   if (loading) {
@@ -95,7 +131,7 @@ const RegistrationComponent = () => {
           borderRadius: {
             xs: "30px",
             sm: "30px",
-            md: "30px 0 0 30px",
+            md: "20px 0 0 30px",
             lg: "30px 0 0 30px",
             xl: "30px 0 0 30px",
           },
@@ -106,7 +142,7 @@ const RegistrationComponent = () => {
             {/* LOGO */}
             <Box
               sx={{
-                mt: "40px",
+                mt: "5px",
                 width: "50px",
                 height: "50px",
                 borderRadius: "12px",
@@ -115,14 +151,13 @@ const RegistrationComponent = () => {
                 justifyContent: "center",
               }}
             >
-              <img style={{ width: "100px" }} src={logo}></img>
+              <img style={{ width: "100px" }} src={logo} alt="logo1"></img>
             </Box>
 
-            <Typography color="white" fontWeight="bold" mt={2} mb={3}>
+            <Typography color="white" fontWeight="bold">
               Registration to dashboard
             </Typography>
           </Box>
-
           <CustomInput
             onSubmit={postRegistration}
             type={"text"}
@@ -150,7 +185,6 @@ const RegistrationComponent = () => {
             placeholder="Enter your Email..."
             isIconActive={false}
           />
-
           <CustomInput
             onSubmit={postRegistration}
             handlerEvent={handlerEvent}
@@ -161,13 +195,23 @@ const RegistrationComponent = () => {
             isIconActive={true}
           />
 
+          <CustomInput
+            onSubmit={postRegistration}
+            handlerEvent={funcAgainePassword}
+            type={"password"}
+            label="Password again"
+            placeholder="Enter your password..."
+            name="password_again"
+            isIconActive={true}
+            style={samePassword}
+          />
           {/* INPUT END */}
           <ThemeProvider theme={theme}>
             <Button
               variant="contained"
               fullWidth
               sx={{
-                mt: 4,
+                mt: 2,
                 boxShadow: `0 0 20px ${colors.red[900]}`,
                 backgroundColor: "red",
                 color: "white",
@@ -191,11 +235,6 @@ const RegistrationComponent = () => {
               </Button>
             </NavLink>
           </ThemeProvider>
-          {errors && (
-            <Typography color="white" fontWeight="bold" mt={2} mb={3}>
-              {`${errors}`}
-            </Typography>
-          )}
         </Box>
       </Box>
     </Grid>

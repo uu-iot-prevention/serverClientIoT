@@ -28,3 +28,9 @@
 .buttonLogOut:hover {
   background-color: red;
 }
+
+@media screen and (min-width: 992px) {
+  .navbar-expand-lg .navbar-collapse {
+    display: flex !important;
+  }
+}

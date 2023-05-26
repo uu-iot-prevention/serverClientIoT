@@ -29,6 +29,7 @@ const CustomInput = ({
   handlerEvent,
   name,
   onSubmit,
+  style,
 }) => {
   const [showPassword, setShowPassword] = useState(true);
   const visiblePasswordFunction = () => {
@@ -79,6 +80,7 @@ const CustomInput = ({
               bgcolor: colors.input[500],
               p: 1,
               borderRadius: "5px",
+              border: !style ? "0.1px solid black" : "0.1px solid red",
             }}
             endAdornment={
               isIconActive && (
@@ -95,6 +97,12 @@ const CustomInput = ({
             }
           />
         </Paper>
+        {style && (
+          <Typography sx={{ paddingLeft: "10px", color: "red" }}>
+            {" "}
+            helso není stejné
+          </Typography>
+        )}
       </Box>
     </Box>
   );
