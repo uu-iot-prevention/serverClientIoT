@@ -178,6 +178,7 @@ const DataBoxes = [
           />
         ))}
         </div>
+
         <div className = 'Container'>
             <GraphBox 
               title = "Temperature" 
@@ -199,6 +200,7 @@ const DataBoxes = [
             <AlertBox 
               title = "Alert history"
             />
+
         </div>
         <p>{ tempData }</p>
 
