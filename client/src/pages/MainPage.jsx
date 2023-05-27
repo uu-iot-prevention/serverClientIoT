@@ -18,6 +18,8 @@ import { toast } from "react-toastify";
 const pokus = () => {
   toast.info("ahoj");
 };
+
+
 const MainPage = () => {
   const [user] = useState({
     username: localStorage.getItem("name"),
@@ -108,22 +110,14 @@ const DataBoxes = [
     imgAlt: "SOS text icon",
   },
 ]
+  const idDashboard = "f48628f7585f"
 
   return (
     <div>
-      {cookies?.token ? (
-        <div>
           <Navbar username={user.username} surname={user.surname}></Navbar>
-
-          <Dashboard DataBoxes={DataBoxes} generatedData={generatedData}/>
-
-          <button onClick={pokus}>Cklikni</button>
-
+          {data&& data.map((stations)=>{ return <Dashboard  key ={stations.idStation} DataBoxes={DataBoxes} title={stations.stationName} generatedData={generatedData} idDashboard={stations.idStation}/>}) }
+          <button onClick={pokus}>Clickni</button>
           <Outlet></Outlet>
-        </div>
-      ) : (
-        <Navigate to={"/login"}></Navigate>
-      )}
     </div>
   );
 };

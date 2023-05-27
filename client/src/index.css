@@ -9,6 +9,10 @@ body {
   height: 100vh;
 }
 
+h2 {
+  font-size: 20px;
+}
+
 .Dashboard {
   border: 2px solid black;
   border-radius: 25px;
@@ -25,7 +29,8 @@ body {
 }
 
 .Box {
-  width: 100px;
+  max-width: 250px;
+  min-width: 200px;
   background-color: white;
   height: 125px;
   margin: 10px;
@@ -48,8 +53,7 @@ body {
   border-radius: 15px;
   align-items: center;
   flex-basis: 0; /* Přidáno */
-  max-width: 100%; /* Přidáno */
-  
+  width: "30%"
 }
 
 .graph-container {
@@ -70,7 +74,7 @@ body {
   text-align: left;
   padding: 5px;
   border-radius: 15px;
-  
+  width: "40%"
 }
 
 .img {
