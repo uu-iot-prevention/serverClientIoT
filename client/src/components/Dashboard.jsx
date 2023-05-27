@@ -14,10 +14,6 @@ import { useCookies } from 'react-cookie';
 
 function Dashboard(props) {
 
-  
-
-
-
   const id = props.idDashboard
   const [stationData, setStationData]=useState()
   const [cookies] = useCookies(["token"])
@@ -112,11 +108,10 @@ const DataBoxes = [
           />
         ))}
         </div>
-        <div className='Container'>
-            <GraphBox title="Temperature" dataWithDate={stationData}/>
-            <AlertBox title="Alert history"/>
+        <div className='ContainerData'>
+            <GraphBox title="Temperature" dataWithDate={stationData} className="GraphBox"/>
+            <AlertBox title="Alert history" className="alertBoxDiv"/>
         </div>
-        <p>{tempData}</p>
     </div>
   );
 }
