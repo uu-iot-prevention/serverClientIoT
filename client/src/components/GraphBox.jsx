@@ -103,16 +103,11 @@ const dataWithDate = data.map(item => {
 
 
 const GraphBox = (props) => {
-    /*const tooltipFormatter = (value, name, entry) => {
-        const time = entry.payload.date.split(', ')[1];
-        return [`Čas: ${time}, ` + `Teplota: ${value} °C` ];
-      };*/
-
     return (
         <div className="Graph">
             <h2>{props.title}</h2>
-            <div className="graph-container">
-                <ResponsiveContainer width="100%" height={300}>
+            <div className="graph-container" >
+                <ResponsiveContainer height={300}>
                     <LineChart
                         data={props.dataWithDate}
                         margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
@@ -121,7 +116,7 @@ const GraphBox = (props) => {
                         <XAxis
                             dataKey="time"
                             tick={false}
-                            />
+                            /> 
                         <YAxis />
                         <Tooltip /*formatter={tooltipFormatter}*/ />
                         <Line type="monotone" dataKey="temperature" stroke="#8884d8" activeDot={{ r: 8 }} />

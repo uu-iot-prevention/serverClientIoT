@@ -237,8 +237,8 @@ class stationController {
       } else {
         date = new Date(req.body.date);
       }
-      let record = await Station.find({ idStation: req.body.idStation });
-      let tempData = record[0].dataTemperature;
+      let record = await Station.findOne({ idStation: req.body.idStation });
+      let tempData = record.dataTemperature;
       let out = [];
       for (let t of tempData) {
         let newDate = t.time;
@@ -253,7 +253,10 @@ class stationController {
       if (out.length === 0) {
         res.status(400).json("NO DATA");
       }
-      res.json(out);
+      else {
+        res.json(out);
+      }
+      
     } catch (e) {
       console.error(e);
       res.status(400).send(e);
