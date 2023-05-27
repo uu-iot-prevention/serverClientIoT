@@ -39,7 +39,7 @@ const MainPage = () => {
   if (!data) {
     return;
   }
-  console.log(data);
+  //console.log(data);
   if (loading) {
     return <div>Loading...</div>;
   }
