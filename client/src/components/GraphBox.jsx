@@ -16,7 +16,7 @@ let newData
             const month = date.getMonth() + 1;
             const year = date.getFullYear();
             console.log(hours, minutes, seconds, day, month, year)
-            return   { time:`${hours}:${minutes}:${seconds} ${day}. ${month}. ${year}`, value:obj.value};
+            return   { time:`${hours}:${minutes}:${seconds} - ${day}. ${month}. ${year}`, value:obj.value};
         })
         
     }

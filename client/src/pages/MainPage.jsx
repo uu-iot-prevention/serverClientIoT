@@ -71,7 +71,7 @@ const MainPage = () => {
   const lastTemperature = generatedData[generatedData.length -1].temperature; //zjištení poslední teploty
 
   let maxTemperature = generatedData[0].temperature; //defaultní nastavení prvního členu na maxTemperature
-  let minTemperature = generatedData[0].temperature //defaultní nastavení prvního členu na maxTemperature
+  let minTemperature = generatedData[0].temperature; //defaultní nastavení prvního členu na maxTemperature
   for (let i = 0; i < generatedData.length; i++) {
     if (generatedData[i].temperature > maxTemperature) {
       maxTemperature = generatedData[i].temperature

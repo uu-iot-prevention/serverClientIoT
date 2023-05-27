@@ -14,18 +14,14 @@ import { useCookies } from 'react-cookie';
 
 function Dashboard(props) {
 
-  const { DataBoxes } = props;
+  
+
+
+
   const id = props.idDashboard
   const [stationData, setStationData]=useState()
   const [cookies] = useCookies(["token"])
-  //console.log(cookies);
-
-
-
-
-  // const { data, loading, error } = useGetAxios(
-  //   "http://localhost:5003/station/temperature", { params: {id: "id"}}
-  // );
+  
 let tempData;
   useEffect(() => {
     const fetchData = async ()=>{
@@ -45,12 +41,53 @@ let tempData;
   }
   fetchData();
   }, []);
-//console.log(stationData); //funguje
-  
-// console.log(props.idDashboard, data)
-// console.log(tempData)
-// fetchData();
 
+let lastTemperature = 0;
+let maxTemperature = 0;
+let minTemperature = 1000;
+if (stationData) {
+  lastTemperature = stationData[stationData.length - 1].value
+  for (let i = 0; i < stationData.length; i++) {
+    if (maxTemperature < stationData[i].value) {
+      maxTemperature = stationData[i].value
+    }
+  }
+  for (let i = 0; i < stationData.length; i++) {
+    if (minTemperature > stationData[i].value) {
+      minTemperature = stationData[i].value
+    }
+  }
+}
+
+const DataBoxes = [
+  {
+    title: "Temperature",
+    data: lastTemperature,
+    unit: "°C",
+    img: tempImg,
+    imgAlt: "thermometer",
+  },
+  {
+    title: "Min temperature",
+    data: minTemperature,
+    unit: "°C",
+    img: coldImg,
+    imgAlt: "snowflake - low temperature icon",
+  },
+  {
+    title: "Max temperature",
+    data: maxTemperature,
+    unit: "°C",
+    img: hotImg,
+    imgAlt: "fire - hot temperature icon",
+  },
+  {
+    title: "Workplace situation",
+    data: "OK",
+    img: sosImg,
+    imgAlt: "SOS text icon",
+  },
+]
   return (
     <div className="Dashboard">
         <div>
@@ -61,7 +98,7 @@ let tempData;
           <DataBox
             key={index}
             title={dataBox.title}
-            data={tempData}
+            data={dataBox.data}
             unit={dataBox.unit}
             img={dataBox.img}
             imgAlt={dataBox.imgAlt}
