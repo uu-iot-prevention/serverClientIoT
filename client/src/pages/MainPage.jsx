@@ -88,6 +88,7 @@ const DataBoxes = [
     unit: "°C",
     img: tempImg,
     imgAlt: "thermometer",
+    color:'253,148,4,0.4'
   },
   {
     title: "Min temperature",
@@ -95,6 +96,7 @@ const DataBoxes = [
     unit: "°C",
     img: coldImg,
     imgAlt: "snowflake - low temperature icon",
+    color:'0,68,251,0.4'
   },
   {
     title: "Max temperature",
@@ -102,23 +104,26 @@ const DataBoxes = [
     unit: "°C",
     img: hotImg,
     imgAlt: "fire - hot temperature icon",
+    color:'254,88,3,0.4'
   },
   {
     title: "Workplace situation",
     data: "OK",
     img: sosImg,
     imgAlt: "SOS text icon",
+    color:'160,0,198,0.4'
   },
 ]
-  const idDashboard = "f48628f7585f"
 
   return (
-    <div>
+    <>
           <Navbar username={user.username} surname={user.surname}></Navbar>
-          {data&& data.map((stations)=>{ return <Dashboard  key ={stations.idStation} DataBoxes={DataBoxes} title={stations.stationName} generatedData={generatedData} idDashboard={stations.idStation}/>}) }
-          <button onClick={pokus}>Clickni</button>
-          <Outlet></Outlet>
-    </div>
+          <div className="backgroud-main">
+            {data&& data.map((stations)=>{ return <Dashboard  key ={stations.idStation} DataBoxes={DataBoxes} title={stations.stationName} generatedData={generatedData} idDashboard={stations.idStation}/>}) }
+            <Outlet></Outlet>
+          </div>
+          
+    </>
   );
 };
 
