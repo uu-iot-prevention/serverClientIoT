@@ -261,7 +261,7 @@ class stationController {
   }
   async getAllert(req, res) {
     try {
-      let id = req.body.id;
+      let id = req.params.id;
       if (!id) {
         res.status(400).json("Invalid body");
       }

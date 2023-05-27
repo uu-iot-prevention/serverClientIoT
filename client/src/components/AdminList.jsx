@@ -7,7 +7,6 @@ import {
   CircularProgress,
   List,
   ListItem,
-  ListItemText,
 } from "@mui/material";
 import { Typography } from "@mui/material";
 
@@ -67,6 +66,12 @@ const AdminList = () => {
     }
   };
 
+  const divTextStyle = {
+  display: 'flex',
+  justifyContent: 'space-between',
+  width:'40vh'
+  }
+
   useEffect(() => {
     setRender((prev) => !prev);
   }, [render]);
@@ -79,25 +84,32 @@ const AdminList = () => {
       ) : (
         <List>
           {data.map((user) => (
-            <ListItem key={user._id}>
-              <ListItemText primary={user.name} />
-              <Typography sx={{ color: "white" }}> {user.email} </Typography>
+            <ListItem key={user._id} >
+              <div className="adminItem" style={{ width:'100vh',display: 'flex', justifyContent: 'space-between', backgroundColor: 'rgba(255, 253, 250, 0.5)',padding:'8px', margin:'1px', borderRadius: '10px'}}>
+                <div className="text_container" style={divTextStyle}>
+                  <Typography sx={{color:'black',justifyContent:'center'}}> {user.email} </Typography>
+                  <Typography sx={{color:'black', justifyContent:'center'}}> {user.roles[0]} </Typography>
+                </div>
+                <div className="button_container" style ={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <Button sx={{ margin: '0px 15px 0px 15px' }}
+                    variant="contained"
+                    color="primary"
+                    onClick={() => handleUpdateUser(user._id)}
+                  >
+                  set Admin
+                  </Button>
 
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={() => handleDeleteUser(user._id)}
-              >
-                Delete
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() => handleUpdateUser(user._id)}
-              >
-                Set to admin
-              </Button>
+                  <Button
+                    variant="contained" 
+                    color="secondary"
+                    onClick={() => handleDeleteUser(user._id)}
+                  >
+                    Delete
+                  </Button>
+                </div>
+              </div>
             </ListItem>
+
           ))}
         </List>
       )}
