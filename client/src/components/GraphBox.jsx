@@ -15,13 +15,12 @@ let newData
             const day = date.getDate();
             const month = date.getMonth() + 1;
             const year = date.getFullYear();
-            console.log(hours, minutes, seconds, day, month, year)
-            return   { time:`${hours}:${minutes}:${seconds} - ${day}. ${month}. ${year}`, value:obj.value};
+            return { time:`${ hours }:${ minutes }:${ seconds } - ${ day }. ${ month }. ${ year }`, value:obj.value };
         })
         
     }
 
-    console.log(newData);
+    //console.log(newData);
     return (
         <div className="Graph">
             <h2>{props.title}</h2>
