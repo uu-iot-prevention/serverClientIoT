@@ -66,6 +66,7 @@ let tempData;
             img={dataBox.img}
             imgAlt={dataBox.imgAlt}
             color = {dataBox.color}
+            status = {dataBox.status}
           />
         ))}
         </div>

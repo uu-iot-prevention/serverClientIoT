@@ -88,7 +88,7 @@ const DataBoxes = [
     unit: "°C",
     img: tempImg,
     imgAlt: "thermometer",
-    color:'253,148,4,0.4'
+    color:'253,148,4,0.5'
   },
   {
     title: "Min temperature",
@@ -96,7 +96,7 @@ const DataBoxes = [
     unit: "°C",
     img: coldImg,
     imgAlt: "snowflake - low temperature icon",
-    color:'0,68,251,0.4'
+    color:'0,68,251,0.5',
   },
   {
     title: "Max temperature",
@@ -104,14 +104,15 @@ const DataBoxes = [
     unit: "°C",
     img: hotImg,
     imgAlt: "fire - hot temperature icon",
-    color:'254,88,3,0.4'
+    color:'254,88,3,0.5'
   },
   {
     title: "Workplace situation",
     data: "OK",
     img: sosImg,
     imgAlt: "SOS text icon",
-    color:'160,0,198,0.4'
+    color:'255,255,255,0.5',
+    status: 'OK'
   },
 ]
 
