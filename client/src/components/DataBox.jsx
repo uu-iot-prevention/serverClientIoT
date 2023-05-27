@@ -7,9 +7,15 @@ const DataBox = (props) => {
                 <h2><b>{props.title}</b></h2>
                 <img className="img" src={props.img} alt={props.imgAlt} />
             </div>
+            {props.status == 'OK'? 
+            <div className="data">
+                <h1>{props.status}</h1>
+            </div>
+            :
             <div className="data">
                 <h1>{props.data}{props.unit}</h1>
             </div>
+            }
         </div>
     )
 }
