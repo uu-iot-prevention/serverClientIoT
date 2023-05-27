@@ -5,11 +5,11 @@ import coldImg from '../icons/cold.png';
 import hotImg from "../icons/hot.png";
 import tempImg from "../icons/temp.png";
 import sosImg from "../icons/sos.png";
-import useGetAxios from "../hooks/useGetAxios";
 import { useEffect, useState } from 'react';
 import { toast } from "react-toastify";
 import { Axios } from 'axios';
 import axios from 'axios';
+import useGetAxios from "../hooks/useGetAxios";
 import { useCookies } from 'react-cookie';
 
 function Dashboard(props) {
@@ -66,7 +66,7 @@ const DataBoxes = [
     unit: "°C",
     img: tempImg,
     imgAlt: "thermometer",
-    color:'253,148,4,0.5'
+    color:'253,148,4,0.7'
   },
   {
     title: "Min temperature",
@@ -74,7 +74,7 @@ const DataBoxes = [
     unit: "°C",
     img: coldImg,
     imgAlt: "snowflake - low temperature icon",
-    color:'0,68,251,0.5',
+    color:'0,68,251,0.7',
   },
   {
     title: "Max temperature",
@@ -82,14 +82,14 @@ const DataBoxes = [
     unit: "°C",
     img: hotImg,
     imgAlt: "fire - hot temperature icon",
-    color:'254,88,3,0.5'
+    color:'254,88,3,0.7'
   },
   {
     title: "Workplace situation",
     data: "OK",
     img: sosImg,
     imgAlt: "SOS text icon",
-    color:'255,255,255,0.5',
+    color:'255,255,255,0.7',
     status: 'OK'
   },
 ]
