@@ -168,7 +168,7 @@ class stationController {
       if (!alertBody) {
         res.status(404).json({ message: "data errors" });
       }
-
+      const [token] = useCoe;
       let alert = await Station.findOne({ idStation: alertBody.idStation });
       if (!alert) {
         const newStation = {
