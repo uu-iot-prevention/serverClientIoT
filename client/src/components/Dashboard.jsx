@@ -110,7 +110,7 @@ const DataBoxes = [
         </div>
         <div className='ContainerData'>
             <GraphBox title="Temperature" dataWithDate={stationData} className="GraphBox"/>
-            <AlertBox title="Alert history" className="alertBoxDiv"/>
+            <AlertBox title="Alert history" id={id} className="alertBoxDiv"/>
         </div>
     </div>
   );
