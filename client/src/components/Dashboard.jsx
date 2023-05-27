@@ -6,10 +6,6 @@ import hotImg from "../icons/hot.png";
 import tempImg from "../icons/temp.png";
 import sosImg from "../icons/sos.png";
 import { useEffect, useState } from 'react';
-import { toast } from "react-toastify";
-import { Axios } from 'axios';
-import axios from 'axios';
-import useGetAxios from "../hooks/useGetAxios";
 import { useCookies } from 'react-cookie';
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css'
@@ -102,63 +98,8 @@ function Dashboard(props) {
 
   console.log(outputDate);
 
-  
-      }).then((r => r.json())).then(data =>{setStationData(data); tempData = data;}).catch(e=>console.log(e));
-  }
-  fetchData();
-  }, []);
 
-let lastTemperature = 0;
-let maxTemperature = 0;
-let minTemperature = 1000;
-if (stationData) {
-  lastTemperature = stationData[stationData.length - 1].value
-  for (let i = 0; i < stationData.length; i++) {
-    if (maxTemperature < stationData[i].value) {
-      maxTemperature = stationData[i].value
-    }
-  }
-  for (let i = 0; i < stationData.length; i++) {
-    if (minTemperature > stationData[i].value) {
-      minTemperature = stationData[i].value
-    }
-  }
-}
 
-const DataBoxes = [
-  {
-    title: "Temperature",
-    data: lastTemperature,
-    unit: "°C",
-    img: tempImg,
-    imgAlt: "thermometer",
-    color:'253,148,4,0.7'
-  },
-  {
-    title: "Min temperature",
-    data: minTemperature,
-    unit: "°C",
-    img: coldImg,
-    imgAlt: "snowflake - low temperature icon",
-    color:'0,68,251,0.7',
-  },
-  {
-    title: "Max temperature",
-    data: maxTemperature,
-    unit: "°C",
-    img: hotImg,
-    imgAlt: "fire - hot temperature icon",
-    color:'254,88,3,0.7'
-  },
-  {
-    title: "Workplace situation",
-    data: "OK",
-    img: sosImg,
-    imgAlt: "SOS text icon",
-    color:'255,255,255,0.7',
-    status: 'OK'
-  },
-]
   return (
     <div className="Dashboard">
         <div>
@@ -201,7 +142,7 @@ const DataBoxes = [
             />
         </div>
         <p>{ tempData }</p>
-
+      </div>
   );
 }
 
