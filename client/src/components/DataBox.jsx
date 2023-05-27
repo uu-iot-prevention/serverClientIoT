@@ -16,7 +16,6 @@ const DataBox = (props) => {
                 <h1>{props.data}{props.unit}</h1>
             </div>
             }
-
         </div>
     )
 }
