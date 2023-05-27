@@ -51,6 +51,11 @@ const Navbar = ({ username, surname }) => {
                 Dashboard <span className="sr-only">(Dashboard)</span>
               </NavLink>
             </li>
+            <li className="nav-item active">
+              <NavLink className="nav-link" to="/admin">
+                Admin <span className="sr-only">(admin)</span>
+              </NavLink>
+            </li>
           </ul>
           <form className="form-inline my-2 my-lg-0">
             <div className="user-icon-name">

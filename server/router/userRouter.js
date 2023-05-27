@@ -7,7 +7,6 @@ const roleMiddleware = require("../middleware/roleMiddleware");
 router.get("/", roleMiddleware(["ADMIN"]), controller.getUser);
 router.post(
   "/user-update/:id",
-
   roleMiddleware(["ADMIN"]),
   controller.updateUser
 );
