@@ -119,6 +119,7 @@ function Dashboard(props) {
           />
         ))}
         </div>
+
         <div className = 'Container'>
             <GraphBox 
               title = "Temperature" 
@@ -140,6 +141,7 @@ function Dashboard(props) {
             <AlertBox 
               title = "Alert history"
             />
+
         </div>
         <p>{ tempData }</p>
       </div>
