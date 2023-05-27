@@ -22,6 +22,7 @@ function Dashboard(props) {
 
 
 
+
   // const { data, loading, error } = useGetAxios(
   //   "http://localhost:5003/station/temperature", { params: {id: "id"}}
   // );
@@ -44,7 +45,7 @@ let tempData;
   }
   fetchData();
   }, []);
-console.log(stationData);
+//console.log(stationData); //funguje
   
 // console.log(props.idDashboard, data)
 // console.log(tempData)
@@ -68,7 +69,7 @@ console.log(stationData);
         ))}
         </div>
         <div className='Container'>
-            <GraphBox title="Temperature" dataWithDate={tempData}/>
+            <GraphBox title="Temperature" dataWithDate={stationData}/>
             <AlertBox title="Alert history"/>
         </div>
         <p>{tempData}</p>
