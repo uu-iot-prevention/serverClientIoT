@@ -168,7 +168,7 @@ class stationController {
       if (!alertBody) {
         res.status(404).json({ message: "data errors" });
       }
-
+      const [token] = useCoe;
       let alert = await Station.findOne({ idStation: alertBody.idStation });
       if (!alert) {
         const newStation = {
@@ -261,7 +261,7 @@ class stationController {
   }
   async getAllert(req, res) {
     try {
-      let id = req.body.id;
+      let id = req.params.id;
       if (!id) {
         res.status(400).json("Invalid body");
       }

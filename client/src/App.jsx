@@ -2,12 +2,14 @@ import { Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import RegistrationPage from "./pages/RegistrationPage";
 import MainPage from "./pages/MainPage";
+import AdminPage from "./pages/AdminPage";
 
 import useWebSocket from "./hooks/useWebSocket";
 import "./index.css";
 import AuthorisationComponent from "./components/authorisationComponent/AuthorisationComponent";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 const App = () => {
   console.log();
   const handleMessage = (message) => {
@@ -39,6 +41,14 @@ const App = () => {
           element={<RegistrationPage></RegistrationPage>}
         ></Route>
         <Route
+          path="/admin"
+          element={
+            <AuthorisationComponent>
+              <AdminPage></AdminPage>
+            </AuthorisationComponent>
+          }
+        ></Route>
+        <Route
           path="/"
           element={
             <AuthorisationComponent>
@@ -46,6 +56,7 @@ const App = () => {
             </AuthorisationComponent>
           }
         >
+          
           {" "}
           <Route
             path="/about"
