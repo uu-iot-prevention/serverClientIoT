@@ -18,10 +18,14 @@ h2 {
   width: 100vh;
 }
 .Dashboard {
-  border: 2px solid black;
+  /*border: 2px solid black;*/
   border-radius: 25px;
   margin: 10px;
-  background-color: rgb(213, 213, 213);
+  background-color: rgb(213, 213, 213,0.5);
+  margin: 20px auto;
+  width: 85%;
+  padding: 10px;
+
 }
 .DashboardTitle {
   margin-left: 10px;
@@ -30,8 +34,26 @@ h2 {
 .Container {
   display: flex;
   flex-wrap: wrap; 
+  width: 100%;
+  justify-content: space-between;
 }
-
+.username-navbar{
+  color: #0BEB0A;
+}
+.surname-navbar {
+  color: #0BEB0A;
+}
+/*.nav-item active:hover{
+  color: #0BEB0A;
+}*/
+.backgroud-main{
+  padding-top: 15px;
+  background-image:url('./assets/image-bg.png');
+  background: cover;
+  overflow: "hidden";
+  height: "100vh";
+  display: "flex";
+}
 .Box {
   max-width: 250px;
   min-width: 200px;
