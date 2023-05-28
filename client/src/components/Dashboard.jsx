@@ -126,7 +126,7 @@ function Dashboard(props) {
         ))}
         </div>
 
-        <div className = 'Container'>
+        <div className = 'ContainerData'>
             <GraphBox 
               title = "Temperature" 
               dataWithDate = { stationData }
@@ -137,19 +137,21 @@ function Dashboard(props) {
             />
 
         </div>
-        <DatePicker 
-              selected = { selectedDate } 
-              onChange = { date => 
-                setSelectedDate(date) 
-                
-              }
-              dateFormat = "dd/MM/yyyy"
-              maxDate = { new Date() }
-              isClearable = { true }
-              showYearDropdown = { true }
-              scrollableMonthYearDropdown = { true }
-              calendarStartDay={ 1 }
+        <div className="DatePicker">
+          <p>Choose a date: </p>
+          <DatePicker 
+                selected = { selectedDate } 
+                onChange = { date => 
+                  setSelectedDate(date) 
+                  
+                }
+                dateFormat = "dd/MM/yyyy"
+                maxDate = { new Date() }
+                showYearDropdown = { true }
+                scrollableMonthYearDropdown = { true }
+                calendarStartDay={ 1 }
             />
+          </div>
       </div>
   );
 }

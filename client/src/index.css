@@ -129,6 +129,14 @@ h1 {
   margin: 5px;
 }
 
+.DatePicker {
+  margin: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 60%;
+}
+
 @media only screen and (min-width: 1440px) {
   .ContainerData {
     display: flex;
