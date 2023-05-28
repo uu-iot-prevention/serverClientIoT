@@ -1,4 +1,6 @@
+require("dotenv").config();
 const express = require("express");
+
 PORT = process.env.PORT || 5003;
 PORTWS = process.env.PORTWS || 5001;
 
@@ -13,10 +15,8 @@ const http = require("http");
 // const wss = new WebSocket.Server({ server });
 const server = http.createServer(app);
 const { wss } = require("./webSocket");
-const { sendWebSocketMessage } = require("./webSocket");
 
-const Dao =
-  "mongodb+srv://admin:132435Andrej@cluster0.hqfl9.mongodb.net/auth_roles?retryWrites=true&w=majority";
+// const Dao = process.env.MONGODB_URL;
 
 app.use(cors());
 
@@ -27,7 +27,7 @@ app.use("/station", stationRouter);
 
 const start = async () => {
   try {
-    await mongoose.connect(Dao, {
+    await mongoose.connect(process.env.MONGODB_URL, {
       useNewUrlParser: true,
 
       useUnifiedTopology: true,
