@@ -36,7 +36,7 @@ let newData
     //console.log(newData);
     return (
         <div className="Graph">
-            <h2>{props.title}</h2>
+            <h2><b>{props.title}</b></h2>
             <div className="graph-container" >
                 <ResponsiveContainer height={300}>
                     <LineChart

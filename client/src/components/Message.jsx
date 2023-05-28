@@ -4,7 +4,7 @@ import { Typography } from "@mui/material";
 
 const Message = ({ id, message, time,typ }) => {
   let type="";
-  if(typ == "SOS"){
+  if(typ === "SOS"){
     type = "error"
   }else{
     type = "warning"
