@@ -11,7 +11,7 @@ import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css'
 
 function Dashboard(props) {
-  const [selectedDate, setSelectedDate] = useState(new Date())
+  const [selectedDate, setSelectedDate] = useState(new Date()) //Nastavení data pomocí komponenty react-datepicker
   var inputDate = selectedDate; //datum z react-datepicker
   var date = new Date(inputDate);
   var outputDate = date.toISOString(); // Převod na formát ISO 8601
@@ -39,6 +39,7 @@ function Dashboard(props) {
     }
     fetchData();
     }, [outputDate]);
+  console.log(outputDate)
 
   let lastTemperature = 0;
   let maxTemperature = 0;
@@ -56,8 +57,8 @@ function Dashboard(props) {
       }
     }
   }
-  console.log("2023-05-25T16:31:46.000Z")
-  console.log(new Date()) //např. Sat May 27 2023 22:36:38 GMT+0200 (Central European Summer Time)
+  //console.log("2023-05-25T16:31:46.000Z")
+  //console.log(new Date()) //např. Sat May 27 2023 22:36:38 GMT+0200 (Central European Summer Time)
 
 
   const DataBoxes = [
@@ -67,6 +68,7 @@ function Dashboard(props) {
       unit: "°C",
       img: tempImg,
       imgAlt: "thermometer",
+      color:'253,148,4,0.5'
     },
     {
       title: "Min temperature",
@@ -74,6 +76,7 @@ function Dashboard(props) {
       unit: "°C",
       img: coldImg,
       imgAlt: "snowflake - low temperature icon",
+      color:'0,68,251,0.5',
     },
     {
       title: "Max temperature",
@@ -81,22 +84,25 @@ function Dashboard(props) {
       unit: "°C",
       img: hotImg,
       imgAlt: "fire - hot temperature icon",
+      title: "Max temperature",
+      color:'254,88,3,0.5'
     },
     {
       title: "Workplace situation",
       data: "OK",
       img: sosImg,
       imgAlt: "SOS text icon",
+      color:'255,255,255,0.5',
     },
   ]
 
-  console.log(selectedDate)
+  //console.log(selectedDate)
 
-  var inputDate = selectedDate; //datum z react-datepicker
-  var date = new Date(inputDate);
-  var outputDate = date.toISOString(); // Převod na formát ISO 8601
+  //var inputDate = selectedDate; //datum z react-datepicker
+  //var date = new Date(inputDate);
+  //var outputDate = date.toISOString(); // Převod na formát ISO 8601
 
-  console.log(outputDate);
+  //console.log(outputDate);
 
 
 
@@ -125,7 +131,13 @@ function Dashboard(props) {
               title = "Temperature" 
               dataWithDate = { stationData }
             />
-            <DatePicker 
+            
+            <AlertBox 
+              title = "Alert history"
+            />
+
+        </div>
+        <DatePicker 
               selected = { selectedDate } 
               onChange = { date => 
                 setSelectedDate(date) 
@@ -138,12 +150,6 @@ function Dashboard(props) {
               scrollableMonthYearDropdown = { true }
               calendarStartDay={ 1 }
             />
-            <AlertBox 
-              title = "Alert history"
-            />
-
-        </div>
-        <p>{ tempData }</p>
       </div>
   );
 }
