@@ -2,6 +2,7 @@ const Station = require("../models/Station");
 const stationSchema = require("../validation/stationValidation");
 const jwt = require("jsonwebtoken");
 const { secret } = require("../config/config");
+const { sendWebSocketMessage } = require("../webSocket");
 
 const generateAccessToken = (id, idStation, roles) => {
   const payload = {
@@ -168,7 +169,7 @@ class stationController {
       if (!alertBody) {
         res.status(404).json({ message: "data errors" });
       }
-      const [token] = useCoe;
+
       let alert = await Station.findOne({ idStation: alertBody.idStation });
       if (!alert) {
         const newStation = {
@@ -205,13 +206,13 @@ class stationController {
       let messageAlert;
       switch (alertBody.type) {
         case "SOS":
-          messageAlert = "Zmacklo se tlacitko SOS";
+          messageAlert = "Bylo zmačknuto SOS tlačítko!";
           break;
         case "FIRE":
-          messageAlert = "Hori ";
+          messageAlert = "Spustil se poplach, Hoří v místnosti!";
           break;
         case "FIREWARNING":
-          messageAlert = "Varovani o zvysene teplote";
+          messageAlert = "Teplota se blíží k nebezpečné!";
           break;
 
         default:
@@ -223,7 +224,7 @@ class stationController {
       alert.stationAlert = dataAlert;
 
       await alert.save();
-
+      sendWebSocketMessage(`alert/${alertBody.type}/${alertBody.idStation}`);
       res.status(200).json({ message: "data save was success ", alertBody });
     } catch (error) {
       res.status(404).json({ message: error.message });
@@ -252,11 +253,9 @@ class stationController {
       }
       if (out.length === 0) {
         res.status(400).json("NO DATA");
-      }
-      else {
+      } else {
         res.json(out);
       }
-      
     } catch (e) {
       console.error(e);
       res.status(400).send(e);

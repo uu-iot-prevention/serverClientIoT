@@ -34,3 +34,19 @@
     display: flex !important;
   }
 }
+
+@keyframes blink {
+  0% {
+    background-color: red;
+  }
+  50% {
+    background-color: yellow;
+  }
+  100% {
+    background-color: red;
+  }
+}
+
+.blinking-background {
+  animation: blink 1s infinite !important;
+}

@@ -3,19 +3,15 @@ import LoginPage from "./pages/LoginPage";
 import RegistrationPage from "./pages/RegistrationPage";
 import MainPage from "./pages/MainPage";
 import AdminPage from "./pages/AdminPage";
-
 import useWebSocket from "./hooks/useWebSocket";
 import "./index.css";
 import AuthorisationComponent from "./components/authorisationComponent/AuthorisationComponent";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useEffect } from "react";
 
 const App = () => {
-  console.log();
-  const handleMessage = (message) => {
-    console.log(`Přijata zpráva: ${message}`);
-  };
-  useWebSocket("ws://localhost:5001", handleMessage);
+  const message = useWebSocket("ws://localhost:5001");
 
   return (
     <div>
@@ -52,11 +48,10 @@ const App = () => {
           path="/"
           element={
             <AuthorisationComponent>
-              <MainPage></MainPage>
+              <MainPage message={message}></MainPage>
             </AuthorisationComponent>
           }
         >
-          
           {" "}
           <Route
             path="/about"

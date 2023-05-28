@@ -1,6 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-export default function useWebSocket(url, onMessage) {
+export default function useWebSocket(url) {
+  const [message, setMessage] = useState();
   useEffect(() => {
     const socket = new WebSocket(url);
 
@@ -10,7 +11,7 @@ export default function useWebSocket(url, onMessage) {
 
     socket.addEventListener("message", (event) => {
       const message = event.data;
-      onMessage(message);
+      setMessage(message);
     });
 
     socket.addEventListener("close", () => {
@@ -20,5 +21,6 @@ export default function useWebSocket(url, onMessage) {
     return () => {
       socket.close();
     };
-  }, [url, onMessage]);
+  }, [url]);
+  return message;
 }
