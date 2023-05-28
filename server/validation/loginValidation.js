@@ -12,6 +12,4 @@ const loginSchema = Joi.object({
   }),
 });
 
-// const registrationValiation = Joi.validate(registrationSchema, schema);
-
 module.exports = loginSchema;
