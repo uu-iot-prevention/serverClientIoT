@@ -20,6 +20,8 @@ let newData
         
     }
 
+    
+
     //console.log(newData);
     return (
         <div className="Graph">
@@ -33,7 +35,6 @@ let newData
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis
                             dataKey="time"
-                            tick={false}
                             /> 
                         <YAxis />
                         <Tooltip /*formatter={tooltipFormatter}*/ />
