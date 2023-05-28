@@ -9,10 +9,25 @@ const Message = ({ id, message, time,typ }) => {
   }else{
     type = "warning"
   }
-  console.log(time);
+  const dateTime = new Date(time);
+
+const formattedDate = dateTime.toLocaleDateString('cs-CZ', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+});
+
+const formattedTime = dateTime.toLocaleTimeString('cs-CZ', {
+  hour: '2-digit',
+  minute: '2-digit',
+  second: '2-digit',
+});
+
+const formattedDateTime = `${formattedDate} - ${formattedTime}`;
+
   return (
     <Alert severity={type} style={{margin:'5px',borderRadius:'10px'}}>
-      <AlertTitle>{time}</AlertTitle>
+      <AlertTitle>{formattedDateTime}</AlertTitle>
       
         <Typography>{message}</Typography>
         <Typography>{typ}</Typography>

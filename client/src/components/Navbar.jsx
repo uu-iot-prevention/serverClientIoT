@@ -17,7 +17,7 @@ const Navbar = ({ username, surname }) => {
  const getRole = async () => {
   const role = await localStorage.getItem("role");
   setRole(role);
-  console.log(role);
+  //console.log(role);
 };
 
   const logOut = () => {

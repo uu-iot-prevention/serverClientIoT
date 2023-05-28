@@ -17,7 +17,7 @@ const AlertBox = (props) => {
     const headers = { Authorization: `Bearer ${token}` };
       const response = await axios.get(`http://localhost:5003/station/alert-get/${id}`,{headers});
       setData(response.data);
-      console.log(response.data);
+      //console.log(response.data);
     };
 
     fetchData();
@@ -26,7 +26,7 @@ const AlertBox = (props) => {
   return (
     <div className="Alerts">
         <h2 style={{marginLeft:'10px'}}><b>{title}</b></h2>
-      {data.reverse().map((data) => (
+      {data.map((data) => (
         <Message 
             key={data._id} 
             id ={data._id} 
