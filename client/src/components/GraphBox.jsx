@@ -13,13 +13,6 @@ import {
 const GraphBox = (props) => {
   const data = props.dataWithDate;
   let newData;
-
-  const dataTime = [
-    { time: "12:00", value: 20 },
-    { time: "13:00", value: 30 },
-    { time: "14:00", value: 25 },
-    // další data...
-  ];
   if (Array.isArray(data) && data.length > 0) {
     newData = data.map((obj) => {
       const ISO = obj.time;
@@ -30,35 +23,56 @@ const GraphBox = (props) => {
       const day = date.getDate();
       const month = date.getMonth() + 1;
       const year = date.getFullYear();
-
       return {
         time: `${hours}:${minutes}:${seconds} - ${day}. ${month}. ${year}`,
         value: obj.value,
       };
     });
   }
+  let dataWithTempTime;
+  if (Array.isArray(data) && data.length > 0) {
+    dataWithTempTime = data.map((obj) => {
+      const cas = new Date(obj.time);
+      const hodiny = cas.getHours();
+      const minuty = cas.getMinutes();
+      const sekundy = cas.getSeconds();
+      return {
+        time: obj.time,
+        Temperature: obj.value,
+        tempTime: `${hodiny}:${minuty}`,
+      };
+    });
+  }
+  //console.log(dataWithTempTime);
 
+  //console.log(newData);
   return (
     <div className="Graph">
-      <h2>{props.title}</h2>
+      <h2>
+        <b>{props.title}</b>
+      </h2>
       <div className="graph-container">
-        <ResponsiveContainer height={300}>
-          <LineChart
-            data={newData}
-            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="time" tick={false} />
-            <YAxis />
-            <Tooltip /*formatter={tooltipFormatter}*/ />
-            <Line
-              type="monotone"
-              dataKey="value"
-              stroke="#8884d8"
-              activeDot={{ r: 8 }}
-            />
-          </LineChart>
-        </ResponsiveContainer>
+        {data === "NO DATA" || !data ? (
+          <div>NO DATA</div>
+        ) : (
+          <ResponsiveContainer height={300}>
+            <LineChart
+              data={dataWithTempTime}
+              margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="tempTime" />
+              <YAxis />
+              <Tooltip /*formatter={tooltipFormatter}*/ />
+              <Line
+                type="monotone"
+                dataKey="Temperature"
+                stroke="#8884d8"
+                activeDot={{ r: 8 }}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        )}
       </div>
     </div>
   );

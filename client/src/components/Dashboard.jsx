@@ -12,7 +12,8 @@ import { useCookies } from "react-cookie";
 import { alerts } from "../constant/alert";
 import { Typography } from "@mui/material";
 import "./style.css";
-import { toast } from "react-toastify";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 function Dashboard(props) {
   const idStation = props.idDashboard;
@@ -22,27 +23,13 @@ function Dashboard(props) {
   const [ide, setIde] = useState("");
   const targetRef = useRef(null);
   const [currentData, setCurretnData] = useState();
+  const [selectedDate, setSelectedDate] = useState(new Date()); //Nastavení data pomocí komponenty react-datepicker
+  var inputDate = selectedDate; //datum z react-datepicker
+  var date = new Date(inputDate);
+  var outputDate = date.toISOString(); // Převod na formát ISO 8601
+
   let tempData;
-  const fetchData = async () => {
-    const body = {
-      idStation: props.idDashboard,
-      date: "2023-05-25T16:31:46.000Z",
-    };
-    fetch("http://localhost:5003/station/temperature", {
-      method: "POST",
-      body: JSON.stringify(body),
-      headers: {
-        Authorization: `Bearer ${cookies.token}`,
-        "Content-Type": "application/json",
-      },
-    })
-      .then((r) => r.json())
-      .then((data) => {
-        setStationData(data);
-        tempData = data;
-      })
-      .catch((e) => console.log(e));
-  };
+
   const fetchCurrenData = async () => {
     const body = {
       idStation: props.idDashboard,
@@ -63,9 +50,29 @@ function Dashboard(props) {
       .catch((e) => console.log(e));
   };
   useEffect(() => {
+    const fetchData = async () => {
+      const body = {
+        idStation: props.idDashboard,
+        date: outputDate,
+      };
+      fetch("http://localhost:5003/station/temperature", {
+        method: "POST",
+        body: JSON.stringify(body),
+        headers: {
+          Authorization: `Bearer ${cookies.token}`,
+          "Content-Type": "application/json",
+        },
+      })
+        .then((r) => r.json())
+        .then((data) => {
+          setStationData(data);
+          tempData = data;
+        })
+        .catch((e) => console.log(e));
+    };
     fetchData();
     fetchCurrenData();
-  }, [ws]);
+  }, [outputDate]);
   useEffect(() => {
     if (!props?.message) {
       return;
@@ -81,7 +88,7 @@ function Dashboard(props) {
   let maxTemperature = 0;
   let minTemperature = 1000;
   if (stationData) {
-    lastTemperature = stationData?.[stationData.length - 1].value;
+    lastTemperature = stationData[stationData.length - 1].value;
     for (let i = 0; i < stationData.length; i++) {
       if (maxTemperature < stationData[i].value) {
         maxTemperature = stationData[i].value;
@@ -99,7 +106,10 @@ function Dashboard(props) {
 
   const DataBoxes = [
     {
-      title: `Min temperature ${currentDate}`,
+      title:
+        stationData === "NO DATA" || !stationData
+          ? `Min temperature     No Data`
+          : `Min temperature ${currentDate}`,
       data: minTemperature,
       unit: "°C",
       img: coldImg,
@@ -107,7 +117,10 @@ function Dashboard(props) {
       color: "0,68,251,0.5",
     },
     {
-      title: `Max temperature ${currentDate}`,
+      title:
+        stationData === "NO DATA" || !stationData
+          ? `Max temperature     No Data`
+          : `Max temperature ${currentDate}`,
       data: maxTemperature,
       unit: "°C",
       img: hotImg,
@@ -118,6 +131,10 @@ function Dashboard(props) {
 
   if (ide && ide === idStation) {
     targetRef.current.scrollIntoView({ behavior: "smooth" });
+  }
+
+  if (stationData === "NO DATA") {
+    console.log(stationData);
   }
   return (
     <div className="Dashboard">
@@ -159,7 +176,6 @@ function Dashboard(props) {
           style={{ backgroundColor: `rgb(${props.color})`, cursor: "pointer" }}
         >
           <div className="header">
-            <h2></h2>
             <img className="img" src={sosImg} alt={"asd"} />
           </div>
 
@@ -182,11 +198,25 @@ function Dashboard(props) {
           </div>
         </div>
       </div>
-      <div className="Container">
-        <GraphBox title="Temperature" dataWithDate={stationData} />
-        <AlertBox title="Alert history" />
+      <div className="datePicker">
+        <label style={{ paddingRight: "15px" }}>
+          <b>Choose&nbsp;a&nbsp;date:</b>
+        </label>
+        <DatePicker
+          selected={selectedDate}
+          onChange={(date) => setSelectedDate(date)}
+          dateFormat="dd/MM/yyyy"
+          maxDate={new Date()}
+          showYearDropdown={true}
+          scrollableMonthYearDropdown={true}
+          calendarStartDay={1}
+        />
       </div>
-      <p>{tempData}</p>
+      <div className="ContainerData">
+        <GraphBox title="Temperature" dataWithDate={stationData} />
+
+        <AlertBox title="Alert history" id={idStation} />
+      </div>
     </div>
   );
 }

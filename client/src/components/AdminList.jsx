@@ -1,13 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import useGetAxios from "../hooks/useGetAxios";
-import {
-  Button,
-  CircularProgress,
-  List,
-  ListItem,
-} from "@mui/material";
+import { Button, CircularProgress, List, ListItem } from "@mui/material";
 import { Typography } from "@mui/material";
 
 const AdminList = () => {
@@ -28,6 +23,7 @@ const AdminList = () => {
       };
 
       const response = await axios(config);
+      setRender((prevRender) => !prevRender);
 
       if (!response) {
         return;
@@ -67,10 +63,10 @@ const AdminList = () => {
   };
 
   const divTextStyle = {
-  display: 'flex',
-  justifyContent: 'space-between',
-  width:'40vh'
-  }
+    display: "flex",
+    justifyContent: "space-between",
+    width: "40vh",
+  };
 
   useEffect(() => {
     setRender((prev) => !prev);
@@ -84,23 +80,45 @@ const AdminList = () => {
       ) : (
         <List>
           {data.map((user) => (
-            <ListItem key={user._id} >
-              <div className="adminItem" style={{ width:'100vh',display: 'flex', justifyContent: 'space-between', backgroundColor: 'rgba(255, 253, 250, 0.5)',padding:'8px', margin:'1px', borderRadius: '10px'}}>
+            <ListItem key={user._id}>
+              <div
+                className="adminItem"
+                style={{
+                  width: "100vh",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  backgroundColor: "rgba(255, 253, 250, 0.5)",
+                  padding: "8px",
+                  margin: "1px",
+                  borderRadius: "10px",
+                }}
+              >
                 <div className="text_container" style={divTextStyle}>
-                  <Typography sx={{color:'black',justifyContent:'center'}}> {user.email} </Typography>
-                  <Typography sx={{color:'black', justifyContent:'center'}}> {user.roles[0]} </Typography>
+                  <Typography sx={{ color: "black", justifyContent: "center" }}>
+                    {" "}
+                    {user.email}{" "}
+                  </Typography>
+                  <Typography sx={{ color: "black", justifyContent: "center" }}>
+                    {" "}
+                    {user.roles[0]}{" "}
+                  </Typography>
                 </div>
-                <div className="button_container" style ={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <Button sx={{ margin: '0px 15px 0px 15px' }}
-                    variant="contained"
-                    color="primary"
-                    onClick={() => handleUpdateUser(user._id)}
-                  >
-                  set Admin
-                  </Button>
-
+                <div
+                  className="button_container"
+                  style={{ display: "flex", justifyContent: "space-between" }}
+                >
+                  {user.roles[0] === "USER" && (
+                    <Button
+                      sx={{ margin: "0px 15px 0px 15px" }}
+                      variant="contained"
+                      color="primary"
+                      onClick={() => handleUpdateUser(user._id)}
+                    >
+                      set Admin
+                    </Button>
+                  )}
                   <Button
-                    variant="contained" 
+                    variant="contained"
                     color="secondary"
                     onClick={() => handleDeleteUser(user._id)}
                   >
@@ -109,7 +127,6 @@ const AdminList = () => {
                 </div>
               </div>
             </ListItem>
-
           ))}
         </List>
       )}

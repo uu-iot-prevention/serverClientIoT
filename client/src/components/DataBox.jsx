@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { alerts } from "../constant/alert";
-import { alertFunction } from "../helper/helper";
+import React from "react";
 
 const DataBox = (props) => {
   return (
