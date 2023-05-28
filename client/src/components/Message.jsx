@@ -9,7 +9,7 @@ const Message = ({ id, message, time,typ }) => {
   }else{
     type = "warning"
   }
- 
+  console.log(time);
   return (
     <Alert severity={type} style={{margin:'5px',borderRadius:'10px'}}>
       <AlertTitle>{time}</AlertTitle>

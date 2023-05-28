@@ -26,7 +26,7 @@ const AlertBox = (props) => {
   return (
     <div className="Alerts">
         <h2 style={{marginLeft:'10px'}}><b>{title}</b></h2>
-      {data.map((data) => (
+      {data.reverse().map((data) => (
         <Message 
             key={data._id} 
             id ={data._id} 
