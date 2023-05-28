@@ -11,5 +11,6 @@ const loginSchema = Joi.object({
     "any.required": `"password" is a required field`,
   }),
 });
+console.log();
 
 module.exports = loginSchema;
