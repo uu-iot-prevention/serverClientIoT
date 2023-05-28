@@ -11,11 +11,11 @@ const Message = ({ id, message, time,typ }) => {
   }
   const dateTime = new Date(time);
 
-const formattedDate = dateTime.toLocaleDateString('cs-CZ', {
-  day: 'numeric',
-  month: 'long',
-  year: 'numeric',
-});
+const day = dateTime.getDate().toString().padStart(2, '0');
+const month = (dateTime.getMonth() + 1).toString().padStart(2, '0');
+const year = dateTime.getFullYear().toString();
+
+const formattedDate = `${day}. ${month}. ${year}`;
 
 const formattedTime = dateTime.toLocaleTimeString('cs-CZ', {
   hour: '2-digit',
