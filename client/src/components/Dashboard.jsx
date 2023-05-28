@@ -39,7 +39,7 @@ function Dashboard(props) {
     }
     fetchData();
     }, [outputDate]);
-  console.log(outputDate)
+  //console.log(outputDate)
 
   let lastTemperature = 0;
   let maxTemperature = 0;
@@ -134,6 +134,7 @@ function Dashboard(props) {
             
             <AlertBox 
               title = "Alert history"
+              id = {id}
             />
 
         </div>
@@ -143,7 +144,6 @@ function Dashboard(props) {
                 selected = { selectedDate } 
                 onChange = { date => 
                   setSelectedDate(date) 
-                  
                 }
                 dateFormat = "dd/MM/yyyy"
                 maxDate = { new Date() }

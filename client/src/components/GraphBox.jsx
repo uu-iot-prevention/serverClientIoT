@@ -29,7 +29,7 @@ let newData
             return { time: obj.time, Temperature: obj.value, tempTime: `${hodiny}:${minuty}` }
         })
     }
-    console.log(dataWithTempTime);
+    //console.log(dataWithTempTime);
 
     
 
