@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import{ useEffect, useState } from "react";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import useGetAxios from "../hooks/useGetAxios";
@@ -28,7 +28,8 @@ const AdminList = () => {
       };
 
       const response = await axios(config);
-
+      setRender((prevRender) => !prevRender);
+      
       if (!response) {
         return;
       }
@@ -91,6 +92,7 @@ const AdminList = () => {
                   <Typography sx={{color:'black', justifyContent:'center'}}> {user.roles[0]} </Typography>
                 </div>
                 <div className="button_container" style ={{ display: 'flex', justifyContent: 'space-between' }}>
+                  {user.roles[0] === "USER" && (
                   <Button sx={{ margin: '0px 15px 0px 15px' }}
                     variant="contained"
                     color="primary"
@@ -98,7 +100,7 @@ const AdminList = () => {
                   >
                   set Admin
                   </Button>
-
+                  )}
                   <Button
                     variant="contained" 
                     color="secondary"
